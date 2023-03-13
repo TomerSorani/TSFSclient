@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.DashController">
+   <content>
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="525.5999755859375" minWidth="10.0" prefWidth="39.4000183105469" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="560.9999938964844" minWidth="10.0" prefWidth="549.7999816894531" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" prefWidth="47.799975585937545" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" prefWidth="37.4000244140625" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="194.00000610351563" minHeight="10.0" prefHeight="40.00000686645507" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="194.00000610351563" minHeight="10.0" prefHeight="142.3999931335449" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="286.79999389648435" minHeight="10.0" prefHeight="274.200033569336" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="286.79999389648435" minHeight="10.0" prefHeight="48.59996643066404" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TableView fx:id="FileTableView" prefHeight="134.0" prefWidth="353.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <columns>
+                <TableColumn fx:id="FileNameTableCol" prefWidth="75.0" text="File Name" />
+                <TableColumn fx:id="secondCol" prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Button fx:id="addFileButton" mnemonicParsing="false" onAction="#AddFileButtonClicked" text="add file" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </content>
+</ScrollPane>

@@ -9,16 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class HelloApplication extends Application {
+public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        //Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        //primaryStage.setTitle("Hello!");
-        //primaryStage.setScene(scene);
-        //primaryStage.show();
-
-
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL url = getClass().getResource("Login.fxml");
         fxmlLoader.setLocation(url);

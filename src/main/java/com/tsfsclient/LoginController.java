@@ -27,7 +27,7 @@ public class LoginController {
     private StringProperty errorMessageProperty;
     private Stage primaryStage;
     private Scene sControllerScene;
-    //private com.ui.SuperController sController;
+    private SuperController sController;
 
     public LoginController() {
         errorMessageProperty = new SimpleStringProperty("");
@@ -46,14 +46,20 @@ public class LoginController {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
         }
         else {
-            //primaryStage.setScene(sControllerScene);
-            //primaryStage.show();
+            if(checkIfValidUser()){
+                primaryStage.setScene(sControllerScene);
+                primaryStage.show();
+            }
+            else {
+                errorMessageProperty.set("Wrong User name or password");
+            }
+
         }
     }
 
     public void setPrimaryStage(Stage primaryStageIn){
         primaryStage=primaryStageIn;
-        //loadSuperScreen();
+        loadSuperScreen();
     }
 
     private void loadSuperScreen(){
@@ -62,8 +68,8 @@ public class LoginController {
         fxmlLoader.setLocation(superScreenUrl);
         try {
             Parent root1 = fxmlLoader.load(superScreenUrl.openStream());
-            //sController=fxmlLoader.getController();
-            //sController.setPrimaryStage(primaryStage);
+            sController=fxmlLoader.getController();
+            sController.setPrimaryStage(primaryStage);
             primaryStage.setTitle("T.S.F.S");
             sControllerScene = new Scene(root1);
             primaryStage.setMinHeight(300f);
@@ -72,5 +78,8 @@ public class LoginController {
         catch (IOException exception){exception.printStackTrace();}
     }
 
+    private boolean checkIfValidUser(){
+        return true;
+    }
 }
 
