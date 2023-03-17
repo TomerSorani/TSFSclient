@@ -34,15 +34,15 @@
                   <HBox>
                      <children>
                         <Label text="file name:" />
-                        <TextField prefHeight="26.0" prefWidth="316.0" />
+                        <TextField fx:id="fileNameTextField" prefHeight="26.0" prefWidth="316.0" />
                      </children>
                   </HBox>
                   <HBox>
                      <children>
                         <Label text="start date:" />
-                        <DatePicker />
+                        <DatePicker fx:id="startDatePicker" editable="false" />
                         <Label text="end date:" />
-                        <DatePicker />
+                        <DatePicker fx:id="endDatePicker" editable="false" />
                      </children>
                   </HBox>
                   <HBox>
@@ -55,8 +55,8 @@
                   <HBox>
                      <children>
                         <Label text="lines:" />
-                        <ListView fx:id="linesListView" prefHeight="200.0" prefWidth="200.0" />
-                        <ListView fx:id="selectedLinesListView" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="linesListView" onMouseClicked="#onMouseClickLinesListView" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="selectedLinesListView" onMouseClicked="#onMouseClickSelectedLinesListView" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </HBox>
                </children>
