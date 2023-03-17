@@ -1,5 +1,9 @@
 package com.tsfsclient;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 public enum City {
     ARAD("ערד"),
     KFAR_SABA("כפר-סבא"),
@@ -24,5 +28,15 @@ public enum City {
     @Override
     public String toString() {
         return displayName;
+    }
+
+    public static List<City> sort() {
+        List<City> cities = Arrays.asList(City.values());
+        cities.sort(Comparator.comparing(City::toString));
+        return cities;
+    }
+
+    public static void sort(List<City> cities) {
+        cities.sort(Comparator.comparing(City::toString));
     }
 }

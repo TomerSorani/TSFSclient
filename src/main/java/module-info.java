@@ -9,6 +9,8 @@ module com.tsfsclient {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires okhttp3;
+    requires com.google.gson;
 
     opens com.tsfsclient to javafx.fxml;
     exports com.tsfsclient;
