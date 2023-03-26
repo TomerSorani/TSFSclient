@@ -11,6 +11,7 @@ module com.tsfsclient {
     requires eu.hansolo.tilesfx;
     requires okhttp3;
     requires com.google.gson;
+    requires java.desktop;
 
     opens com.tsfsclient to javafx.fxml;
     opens com.tsfsclient.rappers to com.google.gson;

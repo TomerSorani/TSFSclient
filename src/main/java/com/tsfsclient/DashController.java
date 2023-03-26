@@ -16,11 +16,13 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.awt.Desktop;
+
 
 public class DashController {
     private final OkHttpClient httpClient;
@@ -49,6 +51,63 @@ public class DashController {
     public void refreshButtonClicked(ActionEvent event){
         sendRefreshRequest();
     }
+
+    @FXML
+    public void tableRowClicked(ActionEvent event){
+        tryOpenMessagesDirectoryAndDeleteContent();
+    }
+
+    private void tryOpenMessagesDirectoryAndDeleteContent(){
+        try {
+            openMessagesDirectoryAndDeleteContent();
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    private void openMessagesDirectoryAndDeleteContent() throws IOException {
+        String directoryPath = "C:/messages";
+        File directory = new File(directoryPath);
+
+        if (!directory.exists()) {
+            if (!directory.mkdirs()) {
+                throw new IOException("Failed to create directory");
+            }
+        }
+
+        if (!Desktop.isDesktopSupported()) {
+            throw new IOException("Desktop is not supported");
+        }
+
+        Desktop desktop = Desktop.getDesktop();
+        if (!desktop.isSupported(Desktop.Action.OPEN)) {
+            throw new IOException("OPEN action is not supported");
+        }
+
+        tryDeleteContentFromDir(directory);
+        desktop.open(directory);
+    }
+
+    private void tryDeleteContentFromDir(File directory){
+        try{
+            deleteContentFromDir(directory);
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    private void deleteContentFromDir(File directory) throws IOException {
+        if (!directory.exists()) {
+            throw new IOException("Directory does not exist: " + directory.getAbsolutePath());
+        }
+        if (!directory.isDirectory()) {
+            throw new IOException(directory.getAbsolutePath() + " is not a directory");
+        }
+
+        for (File file : directory.listFiles()) {
+            if (file.isDirectory()) {
+                deleteContentFromDir(file);
+            }
+            file.delete();
+        }
+    }
+
 
     public void setWorkerSuperController(SuperController sController, Stage primaryStage){
         this.sController = sController;
