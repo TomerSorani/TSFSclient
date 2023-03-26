@@ -8,15 +8,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.DashController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.DashController">
    <content>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="525.5999755859375" minWidth="10.0" prefWidth="39.4000183105469" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="560.9999938964844" minWidth="10.0" prefWidth="549.7999816894531" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" prefWidth="47.799975585937545" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" prefWidth="37.4000244140625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="525.5999755859375" minWidth="10.0" prefWidth="17.000000953674316" />
+          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="560.9999990463257" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="194.00000610351563" minHeight="10.0" prefHeight="40.00000686645507" vgrow="SOMETIMES" />
@@ -25,13 +23,14 @@
             <RowConstraints maxHeight="286.79999389648435" minHeight="10.0" prefHeight="48.59996643066404" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="FileTableView" prefHeight="134.0" prefWidth="353.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TableView fx:id="FileTableView" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
               <columns>
-                <TableColumn fx:id="FileNameTableCol" prefWidth="75.0" text="File Name" />
-                <TableColumn fx:id="secondCol" prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="fileNameCol" prefWidth="190.0" text="File Name" />
+                <TableColumn fx:id="linesCol" prefWidth="160.0" text="Lines" />
+                  <TableColumn fx:id="citiesCol" prefWidth="176.0" text="Cities" />
               </columns>
             </TableView>
-            <Button fx:id="addFileButton" mnemonicParsing="false" onAction="#AddFileButtonClicked" text="add file" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" text="refresh" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </content>

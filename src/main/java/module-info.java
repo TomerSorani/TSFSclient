@@ -13,5 +13,6 @@ module com.tsfsclient {
     requires com.google.gson;
 
     opens com.tsfsclient to javafx.fxml;
+    opens com.tsfsclient.rappers to com.google.gson;
     exports com.tsfsclient;
 }

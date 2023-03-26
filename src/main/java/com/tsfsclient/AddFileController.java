@@ -32,9 +32,9 @@ import com.google.gson.Gson;
 public class AddFileController {
     private final int port = 1995;
     private final OkHttpClient httpClient;
+    private Gson gson;
     private SuperController sController;
     private Stage primaryStage;
-    private Gson gson;
     private List<String> selectedLines;
 
     @FXML
