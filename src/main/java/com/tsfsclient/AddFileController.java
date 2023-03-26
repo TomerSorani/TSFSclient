@@ -13,6 +13,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
@@ -163,10 +165,11 @@ public class AddFileController {
         Integer endYear = endSelectedDate.getYear();
 
         List<String> citiesList = selectedCityListView.getItems().stream().map(Enum::name).collect(Collectors.toList());
-        List<String>  linesList = selectedLinesListView.getItems().stream().toList();
+        String[] citiesArray = citiesList.toArray(new String[0]);
+        String[] linesList = selectedLinesListView.getItems().toArray(new String[0]);
 
         return new FileContainer(absolutePath,fileName,startDay.toString(),startMonth.toString(),startYear.toString(),
-                endDay.toString(),endMonth.toString(),endYear.toString(),citiesList,linesList);
+                endDay.toString(),endMonth.toString(),endYear.toString(),citiesArray,linesList);
     }
 
     private void copyFile(String absolutePath) throws IOException {
@@ -216,9 +219,24 @@ public class AddFileController {
         String endPoint = "http://localhost:" + port + "/TSFS/AddFile";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
 
+        // Create a JSON object and add all the fields of the FileContainer to it
+        JsonObject json = new JsonObject();
+        json.addProperty("absolutePath", fileContainer.getAbsolutePath());
+        json.addProperty("fileName", fileContainer.getFileName());
+        json.addProperty("startDay", fileContainer.getStartDay());
+        json.addProperty("startMonth", fileContainer.getStartMonth());
+        json.addProperty("startYear", fileContainer.getStartYear());
+        json.addProperty("endDay", fileContainer.getEndDay());
+        json.addProperty("endMonth", fileContainer.getEndMonth());
+        json.addProperty("endYear", fileContainer.getEndYear());
+        json.add("citiesArray", gson.toJsonTree(fileContainer.getCitiesArray()));
+        json.add("linesArray", gson.toJsonTree(fileContainer.getLinesArray()));
 
-        RequestBody requestBody = new FormBody.Builder().add("file", gson.toJson(fileContainer)).build();
+        // Convert the JSON object to a string and create a request body with it
+        String jsonStr = gson.toJson(json);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonStr);
 
+        // Build the request and execute it
         Request request = new Request.Builder()
                 .url(urlBuilder.build().toString())
                 .post(requestBody)
@@ -230,5 +248,4 @@ public class AddFileController {
             }
         }
     }
-
 }
