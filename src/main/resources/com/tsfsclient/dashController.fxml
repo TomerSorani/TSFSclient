@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.DashController">
    <content>
@@ -23,14 +28,38 @@
             <RowConstraints maxHeight="286.79999389648435" minHeight="10.0" prefHeight="48.59996643066404" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="FileTableView" onMouseClicked="#tableRowClicked" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+            <TableView fx:id="FileTableView" onMouseClicked="#onRowClicked" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
               <columns>
                 <TableColumn fx:id="fileNameCol" prefWidth="190.0" text="File Name" />
                 <TableColumn fx:id="linesCol" prefWidth="160.0" text="Lines" />
                   <TableColumn fx:id="citiesCol" prefWidth="176.0" text="Cities" />
               </columns>
             </TableView>
-            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" text="refresh" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" text="refresh" />
+                  <VBox alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="start time" />
+                              <DatePicker fx:id="startDatePicker" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="end time" />
+                              <DatePicker fx:id="endDatePicker" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                        <Button fx:id="sortByDateButton" mnemonicParsing="false" onMouseClicked="#onSortByDateButton" text="sort" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </content>

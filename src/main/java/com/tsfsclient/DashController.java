@@ -1,5 +1,7 @@
 package com.tsfsclient;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.tsfsclient.rappers.FileContainer;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,8 +10,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import okhttp3.HttpUrl;
@@ -18,10 +23,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.awt.Desktop;
+import java.util.Objects;
 
 
 public class DashController {
@@ -36,6 +46,9 @@ public class DashController {
     @FXML private TableColumn<FileTableViewRow, String> linesCol;
     @FXML private TableColumn<FileTableViewRow, String> citiesCol;
     @FXML private Button refreshButton;
+    @FXML private Button sortByDateButton;
+    @FXML private DatePicker startDatePicker;
+    @FXML private DatePicker endDatePicker;
 
     public DashController() {
         fileList = new ArrayList<>();
@@ -53,8 +66,28 @@ public class DashController {
     }
 
     @FXML
-    public void tableRowClicked(ActionEvent event){
-        tryOpenMessagesDirectoryAndDeleteContent();
+    public void onRowClicked(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+            FileTableViewRow fileTableViewRow = FileTableView.getSelectionModel().getSelectedItem();
+            if (fileTableViewRow != null) {
+                System.out.println("Selected file: " + fileTableViewRow.getFileName());
+                tryOpenMessagesDirectoryAndDeleteContent();
+                String fileName = fileTableViewRow.getFileName();
+                String fileLocation = sendRequestToGetFileLocation(fileName);
+                try{
+                    moveFileToMessagesDirectory(fileLocation, fileName);
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @FXML
+    public void onSortByDateButton(){
+        LocalDate startSelectedDate = startDatePicker.getValue();
+        LocalDate endSelectedDate = endDatePicker.getValue();
+        sortTableViewByDate(startSelectedDate, endSelectedDate);
     }
 
     private void tryOpenMessagesDirectoryAndDeleteContent(){
@@ -108,7 +141,6 @@ public class DashController {
         }
     }
 
-
     public void setWorkerSuperController(SuperController sController, Stage primaryStage){
         this.sController = sController;
         this.primaryStage = primaryStage;
@@ -132,16 +164,37 @@ public class DashController {
                     .forEach(fileList::add);
 
 
-            updateTableView();
+            updateTableView(fileList);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    private void updateTableView() {
+    private void sortTableViewByDate(LocalDate startSelectedDate, LocalDate endSelectedDate){
+        List<FileContainer> filesOnDate = new ArrayList<>();
+        for(FileContainer fileContainer : fileList){
+            LocalDate startTime = LocalDate.of(Integer.parseInt(fileContainer.getStartYear()), Integer.parseInt(fileContainer.getStartMonth()), Integer.parseInt(fileContainer.getStartDay()));
+            LocalDate endTime = LocalDate.of(Integer.parseInt(fileContainer.getEndYear()), Integer.parseInt(fileContainer.getEndMonth()), Integer.parseInt(fileContainer.getEndDay()));
+            if ((startTime.isBefore(endSelectedDate) || startTime.equals(endSelectedDate))
+                    && (endTime.isAfter(startSelectedDate) || endTime.equals(startSelectedDate))) {
+                filesOnDate.add(fileContainer);
+            }
+        }
+        updateTableView(filesOnDate);
+    }
+
+    private void SortTableViewBylines(){
+
+    }
+
+    private void SortTableViewByCities(){
+
+    }
+
+    private void updateTableView(List<FileContainer> fileContainerList) {
         FileTableView.getItems().removeAll(FileTableView.getItems());
-        for (FileContainer file : fileList) {
+        for (FileContainer file : fileContainerList) {
             // Get the values to add to the table
             String fileName = file.getFileName();
             String citiesArray = Arrays.toString(file.getCitiesArray());
@@ -182,6 +235,45 @@ public class DashController {
             FileTableView.edit(row, linesCol);
             FileTableView.edit(row, citiesCol);
         }
+    }
+
+    private String sendRequestToGetFileLocation(String fileName) {
+        String endPoint = "http://localhost:" + sController.port() + "/TSFS/GetFileLocationAccordingToFileName";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+        urlBuilder.addQueryParameter("fileName", fileName); // Add query parameter for fileName
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .get()
+                .build();
+        String fileLocation = null;
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+            fileLocation = response.body().string();
+            fileLocation = fileLocation.replaceAll("\"", ""); // remove the quotation marks
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return fileLocation;
+    }
+
+    private void moveFileToMessagesDirectory(String fileLocation, String fileName) throws IOException {
+        String directoryPath = "C:/messages";
+
+        // Create the destination directory if it doesn't exist
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Create a destination file inside the "messages" directory with the same name as the original file
+        File dest = new File(directoryPath, fileName+".docx");
+
+        // Copy the file
+        Files.copy(new File(fileLocation).toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
 }
