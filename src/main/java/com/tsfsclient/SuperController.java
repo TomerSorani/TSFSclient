@@ -1,10 +1,17 @@
 package com.tsfsclient;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.io.IOException;
+import java.util.List;
 
 public class SuperController {
     private Stage primaryStage;
@@ -29,10 +36,13 @@ public class SuperController {
 
     public void setPrimaryStage(Stage primaryStage){
         this.primaryStage = primaryStage;
+        initialize();
     }
 
     public static int port() {
         return port;
     }
+
+
 
 }

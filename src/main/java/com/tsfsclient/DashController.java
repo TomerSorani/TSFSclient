@@ -9,10 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -49,6 +46,9 @@ public class DashController {
     @FXML private Button sortByDateButton;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
+    @FXML private ChoiceBox<City> cityChoiceBox;
+    @FXML private ChoiceBox<String> lineChoiceBox;
+
 
     public DashController() {
         fileList = new ArrayList<>();
@@ -57,7 +57,7 @@ public class DashController {
     }
 
     @FXML public void initialize() {
-
+        addCitiesToChoiceBox();
     }
 
     @FXML
@@ -184,12 +184,24 @@ public class DashController {
         updateTableView(filesOnDate);
     }
 
-    private void SortTableViewBylines(){
-
+    private void sortTableViewByline(String line){
+        List<FileContainer> filesAboutLine = new ArrayList<>();
+        for(FileContainer fileContainer : fileList){
+            if (Arrays.stream(fileContainer.getLinesArray()).toList().contains(line)) {
+                filesAboutLine.add(fileContainer);
+            }
+        }
+        updateTableView(filesAboutLine);
     }
 
-    private void SortTableViewByCities(){
-
+    private void sortTableViewByCity(City city){
+        List<FileContainer> filesAboutLine = new ArrayList<>();
+        for(FileContainer fileContainer : fileList){
+            if (Arrays.stream(fileContainer.getCitiesArray()).toList().contains(city.name())) {
+                filesAboutLine.add(fileContainer);
+            }
+        }
+        updateTableView(filesAboutLine);
     }
 
     private void updateTableView(List<FileContainer> fileContainerList) {
@@ -276,4 +288,50 @@ public class DashController {
         Files.copy(new File(fileLocation).toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
+    private void addCitiesToChoiceBox(){
+        cityChoiceBox.getItems().addAll(City.sort());
+    }
+    private List<String> sendRequestForLinesInCity(City city) {
+        List<String> linesList = null;
+        String endPoint = "http://localhost:" + sController.port() + "/TSFS/GetLinesAccordingToCity";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+        urlBuilder.addQueryParameter("city", String.valueOf(city.name()));
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .get()
+                .build();
+        try (Response response = httpClient.newCall(request).execute()) {
+
+            String responseBody = response.body().string();
+            linesList = gson.fromJson(responseBody, new TypeToken<List<String>>() {
+            }.getType());
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        return linesList;
+    }
+
+    @FXML
+    private void onSelectedCity(){
+        City selectedCity = cityChoiceBox.getSelectionModel().getSelectedItem();
+        List<String> linesList = sendRequestForLinesInCity(selectedCity);
+        lineChoiceBox.getItems().addAll(linesList);
+    }
+
+    @FXML
+    private void onSortByCityLineButton(){
+        if(lineChoiceBox.getSelectionModel().isEmpty()){
+            sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem());
+        }
+        else {
+            sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem());
+        }
+    }
+    @FXML
+    private void onClearLineButton(){
+        lineChoiceBox.getSelectionModel().clearSelection();
+    }
 }
