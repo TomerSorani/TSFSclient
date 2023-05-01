@@ -44,6 +44,9 @@ public class DashController {
     @FXML private TableColumn<FileTableViewRow, String> citiesCol;
     @FXML private Button refreshButton;
     @FXML private Button sortByDateButton;
+    @FXML private Button deleteFilesFromDBButton;
+    @FXML private Button deleteFileButton;
+    @FXML private TextField deleteFileTextField;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<City> cityChoiceBox;
@@ -58,6 +61,7 @@ public class DashController {
 
     @FXML public void initialize() {
         addCitiesToChoiceBox();
+        lineChoiceBox.disableProperty().setValue(true);
     }
 
     @FXML
@@ -88,6 +92,16 @@ public class DashController {
         LocalDate startSelectedDate = startDatePicker.getValue();
         LocalDate endSelectedDate = endDatePicker.getValue();
         sortTableViewByDate(startSelectedDate, endSelectedDate);
+    }
+
+    @FXML
+    public void onDeleteAllFilesFromDB(){
+        sendRequestToDeleteAllFilesFromDB();
+    }
+
+    @FXML
+    public void onDeleteAllFile(){
+        deleteFile();
     }
 
     private void tryOpenMessagesDirectoryAndDeleteContent(){
@@ -318,6 +332,9 @@ public class DashController {
     private void onSelectedCity(){
         City selectedCity = cityChoiceBox.getSelectionModel().getSelectedItem();
         List<String> linesList = sendRequestForLinesInCity(selectedCity);
+        lineChoiceBox.disableProperty().setValue(false);
+        onClearLineButton();
+        lineChoiceBox.getItems().removeAll(lineChoiceBox.getItems());
         lineChoiceBox.getItems().addAll(linesList);
     }
 
@@ -333,5 +350,47 @@ public class DashController {
     @FXML
     private void onClearLineButton(){
         lineChoiceBox.getSelectionModel().clearSelection();
+    }
+
+    private void sendRequestToDeleteAllFilesFromDB() {
+        String endPoint = "http://localhost:" + sController.port() + "/TSFS/DeleteFilesFromDB";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .delete()
+                .build();
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void deleteFile(){
+        String fileToDelete = deleteFileTextField.getText();
+        if (fileList.stream().anyMatch(fileContainer -> fileContainer.getFileName().equals(fileToDelete))){
+            sendRequestToDeleteFile(fileToDelete);
+        }
+
+    }
+
+    private void sendRequestToDeleteFile(String fileToDelete) {
+        String endPoint = "http://localhost:" + sController.port() + "/TSFS/DeleteFile";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .delete()
+                .build();
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

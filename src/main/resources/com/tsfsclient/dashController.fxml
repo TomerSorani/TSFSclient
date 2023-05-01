@@ -8,6 +8,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -23,8 +24,8 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="194.00000610351563" minHeight="10.0" prefHeight="40.00000686645507" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="194.00000610351563" minHeight="10.0" prefHeight="142.3999931335449" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="194.00000610351563" minHeight="2.4000068783760042" prefHeight="10.400007057189939" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="194.00000610351563" minHeight="10.0" prefHeight="172.79999294281004" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="286.79999389648435" minHeight="10.0" prefHeight="274.200033569336" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="286.79999389648435" minHeight="10.0" prefHeight="48.59996643066404" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -36,20 +37,20 @@
                   <TableColumn fx:id="citiesCol" prefWidth="176.0" text="Cities" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_LEFT" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" text="refresh" />
-                  <VBox alignment="CENTER">
+                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="46.0" prefWidth="53.0" text="refresh" />
+                  <VBox alignment="CENTER" spacing="10.0">
                      <children>
                         <VBox alignment="CENTER">
                            <children>
-                              <Label text="start time" />
+                              <Label minWidth="-Infinity" text="start time" />
                               <DatePicker fx:id="startDatePicker" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <Label text="end time" />
+                              <Label minWidth="-Infinity" text="end time" />
                               <DatePicker fx:id="endDatePicker" />
                            </children>
                            <opaqueInsets>
@@ -59,19 +60,26 @@
                         <Button fx:id="sortByDateButton" mnemonicParsing="false" onMouseClicked="#onSortByDateButton" text="sort" />
                      </children>
                   </VBox>
-                  <VBox>
+                  <VBox spacing="5.0">
                      <children>
-                        <Label text="city" />
+                        <Label minWidth="-Infinity" text="city" />
                         <ChoiceBox fx:id="cityChoiceBox" prefWidth="150.0" />
                         <Button fx:id="selectedCityButton" mnemonicParsing="false" onMouseClicked="#onSelectedCity" text="search lines in city" />
-                        <HBox>
+                        <HBox spacing="25.0">
                            <children>
-                              <Label text="line" />
-                              <Button fx:id="clearLineButton" mnemonicParsing="false" onMouseClicked="#onClearLineButton" text="clear line" />
+                              <Label minWidth="-Infinity" text="line" />
+                              <Button fx:id="clearLineButton" contentDisplay="BOTTOM" mnemonicParsing="false" onMouseClicked="#onClearLineButton" text="clear line" />
                            </children>
                         </HBox>
                         <ChoiceBox fx:id="lineChoiceBox" prefWidth="150.0" />
                         <Button fx:id="sortByCityLineButton" mnemonicParsing="false" onMouseClicked="#onSortByCityLineButton" text="sort" />
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Button fx:id="deleteFilesFromDBButton" mnemonicParsing="false" onMouseClicked="#onDeleteAllFilesFromDB" prefHeight="50.0" prefWidth="81.0" text="delete files from DB" wrapText="true" />
+                        <Button fx:id="deleteFileButton" mnemonicParsing="false" onMouseClicked="#onDeleteAllFile" text="delete file" />
+                        <TextField fx:id="deleteFileTextField" />
                      </children>
                   </VBox>
                </children>

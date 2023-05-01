@@ -93,13 +93,13 @@ public class AddFileController {
 
     @FXML
     private void onMouseClickSelectedCityListView() {
-        City city = selectedCityListView.getSelectionModel().getSelectedItem();
-        if (city != null) {
-            cityListView.getItems().add(selectedCityListView.getSelectionModel().getSelectedItem());
-            selectedCityListView.getItems().remove(city);
-            City.sort(cityListView.getItems());
-            City.sort(selectedCityListView.getItems());
-        }
+//        City city = selectedCityListView.getSelectionModel().getSelectedItem();
+//        if (city != null) {
+//            cityListView.getItems().add(selectedCityListView.getSelectionModel().getSelectedItem());
+//            selectedCityListView.getItems().remove(city);
+//            City.sort(cityListView.getItems());
+//            City.sort(selectedCityListView.getItems());
+//        }
     }
 
     @FXML
@@ -125,7 +125,7 @@ public class AddFileController {
     }
 
     @FXML
-    void AddFileButtonClicked(ActionEvent event) {
+    private void AddFileButtonClicked(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("WORD files", "*.docx"));
@@ -150,6 +150,14 @@ public class AddFileController {
         } catch (Exception exception) {
             exception.getMessage();
         }
+    }
+
+    @FXML
+    private void onClearSelectedCitiesButton(){
+        selectedCityListView.getItems().removeAll(selectedCityListView.getItems());
+        linesListView.getItems().removeAll(linesListView.getItems());
+        selectedLinesListView.getItems().removeAll(selectedLinesListView.getItems());
+
     }
 
     private FileContainer createFileContainer(String absolutePath){
