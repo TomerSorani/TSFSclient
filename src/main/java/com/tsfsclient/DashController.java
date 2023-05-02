@@ -1,7 +1,5 @@
 package com.tsfsclient;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.tsfsclient.rappers.FileContainer;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,26 +8,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.awt.Desktop;
-import java.util.Objects;
-
 
 public class DashController {
     private final OkHttpClient httpClient;
@@ -51,7 +44,6 @@ public class DashController {
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<City> cityChoiceBox;
     @FXML private ChoiceBox<String> lineChoiceBox;
-
 
     public DashController() {
         fileList = new ArrayList<>();
@@ -97,6 +89,9 @@ public class DashController {
     @FXML
     public void onDeleteAllFilesFromDB(){
         sendRequestToDeleteAllFilesFromDB();
+
+        fileList.removeAll(fileList);
+        sendRefreshRequest();
     }
 
     @FXML
@@ -221,10 +216,10 @@ public class DashController {
     private void updateTableView(List<FileContainer> fileContainerList) {
         FileTableView.getItems().removeAll(FileTableView.getItems());
         for (FileContainer file : fileContainerList) {
-            // Get the values to add to the table
-            String fileName = file.getFileName();
-            String citiesArray = Arrays.toString(file.getCitiesArray());
-            String linesArray = Arrays.toString(file.getLinesArray());
+//            // Get the values to add to the table
+//            String fileName = file.getFileName();
+//            String citiesArray = Arrays.toString(file.getCitiesArray());
+//            String linesArray = Arrays.toString(file.getLinesArray());
 
             // Create a new row in the table
             TableView.TableViewSelectionModel selectionModel = FileTableView.getSelectionModel();
@@ -245,18 +240,40 @@ public class DashController {
                     return new SimpleStringProperty(param.getValue().getFileName());
                 }
             });
-            linesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<FileTableViewRow, String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<FileTableViewRow, String> param) {
-                    return new SimpleStringProperty(citiesArray);
-                }
-            });
-            citiesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<FileTableViewRow, String>, ObservableValue<String>>() {
-                @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<FileTableViewRow, String> param) {
-                    return new SimpleStringProperty(linesArray);
-                }
-            });
+            linesCol.setCellValueFactory(new PropertyValueFactory<>("lines"));
+            citiesCol.setCellValueFactory(new PropertyValueFactory<>("cities"));
+
+//            linesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<FileTableViewRow, String>, ObservableValue<String>>() {
+//                @Override
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<FileTableViewRow, String> param) {
+//                    return new SimpleStringProperty(citiesArray);
+//                }
+//            });
+
+//            linesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<FileTableViewRow, String>, ObservableValue<String>>() {
+//                @Override
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<FileTableViewRow, String> param) {
+//                    String[] linesArray = param.getValue().getLinesArray();
+//                    String linesString = Arrays.toString(linesArray);
+//                    return new SimpleStringProperty(linesString.substring(1, linesString.length() - 1));
+//                }
+//            });
+
+//            citiesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<FileTableViewRow, String>, ObservableValue<String>>() {
+//                @Override
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<FileTableViewRow, String> param) {
+//                    return new SimpleStringProperty(linesArray);
+//                }
+//            });
+
+//            citiesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<FileTableViewRow, String>, ObservableValue<String>>() {
+//                @Override
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<FileTableViewRow, String> param) {
+//                    String[] citiesArray = param.getValue().getCitiesArray();
+//                    String citiesString = Arrays.toString(citiesArray);
+//                    return new SimpleStringProperty(citiesString.substring(1, citiesString.length() - 1));
+//                }
+//            });
             FileTableView.edit(row, fileNameCol);
             FileTableView.edit(row, linesCol);
             FileTableView.edit(row, citiesCol);
@@ -370,16 +387,32 @@ public class DashController {
     }
 
     private void deleteFile(){
-        String fileToDelete = deleteFileTextField.getText();
-        if (fileList.stream().anyMatch(fileContainer -> fileContainer.getFileName().equals(fileToDelete))){
-            sendRequestToDeleteFile(fileToDelete);
-        }
+        if(!deleteFileTextField.getText().isEmpty())
+        {
+            String fileToDeleteName = deleteFileTextField.getText();
+            if (fileList.stream().anyMatch(fileContainer -> fileContainer.getFileName().equals(fileToDeleteName))){
+                sendRequestToDeleteFile(fileToDeleteName);
+                fileList.remove(GetFileContainerByFileName(fileToDeleteName));
+                sendRefreshRequest();
+            }
 
+            deleteFileTextField.clear();
+        }
     }
 
-    private void sendRequestToDeleteFile(String fileToDelete) {
+    private void sendRequestToDeleteFile(String fileToDeleteName) {
         String endPoint = "http://localhost:" + sController.port() + "/TSFS/DeleteFile";
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+//        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+//        JsonObject json = new JsonObject();
+//        json.addProperty("fileName", fileToDeleteName);
+//        String jsonStr = gson.toJson(json);
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonStr);
+//        Request request = new Request.Builder()
+//                .url(urlBuilder.build().toString())
+//                .delete(requestBody)
+//                .build();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder()
+                .addQueryParameter("fileName", fileToDeleteName);
         Request request = new Request.Builder()
                 .url(urlBuilder.build().toString())
                 .delete()
@@ -390,7 +423,19 @@ public class DashController {
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error sending DELETE request", e);
         }
+    }
+
+    public FileContainer GetFileContainerByFileName(String fileName){
+        FileContainer res = null;
+        for(FileContainer fileContainer:fileList){
+            if(fileContainer.getFileName().equals(fileName)){
+                res = fileContainer;
+                break;
+            }
+        }
+
+        return res;
     }
 }
