@@ -1,5 +1,6 @@
 package com.tsfsclient;
 
+import com.google.gson.Gson;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -11,6 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -28,9 +34,13 @@ public class LoginController {
     private Stage primaryStage;
     private Scene sControllerScene;
     private SuperController sController;
+    private final OkHttpClient httpClient;
+    private Gson gson;
 
     public LoginController() {
         errorMessageProperty = new SimpleStringProperty("");
+        httpClient = new OkHttpClient();
+        gson = new Gson();
     }
 
     @FXML public void initialize(){
@@ -42,11 +52,13 @@ public class LoginController {
     @FXML
     public void loginButtonClicked(ActionEvent event) {
         String userName = userNameTextField.getText();
+        String password = passwordTextField.getText();
         if (userName.isEmpty()) {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
         }
         else {
-            if(checkIfValidUser()){
+
+            if(checkIfValidUser(userName, password)){
                 primaryStage.setScene(sControllerScene);
                 primaryStage.show();
             }
@@ -78,7 +90,24 @@ public class LoginController {
         catch (IOException exception){exception.printStackTrace();}
     }
 
-    private boolean checkIfValidUser(){
+    private boolean checkIfValidUser(String userName, String password){
+        String endPoint = "http://localhost:" + sController.port() + "/TSFS/Access";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder()
+                .addQueryParameter("userName", userName)
+                        .addQueryParameter("password", password);
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .get()
+                .build();
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Error sending login request", e);
+        }
         return true;
     }
 }

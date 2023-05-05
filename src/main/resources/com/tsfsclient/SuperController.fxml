@@ -9,7 +9,7 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="508.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.SuperController">
    <content>
-      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="500.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="controlTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="500.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="DashboardTab" text="Dashboard">
                <content>
@@ -40,6 +40,21 @@
                      </children>
                   </GridPane>
                </content>
+            </Tab>
+            <Tab fx:id="ManagerTab" text="Manager">
+              <content>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <fx:include fx:id="ManagerControllerTabContent" source="mannagerController.fxml" />
+                     </children>
+                  </GridPane>
+              </content>
             </Tab>
         </tabs>
       </TabPane>
