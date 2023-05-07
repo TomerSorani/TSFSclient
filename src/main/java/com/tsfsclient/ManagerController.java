@@ -8,18 +8,18 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 import java.io.IOException;
 
-public class MannagerController {
+public class ManagerController {
     private final OkHttpClient httpClient;
     private Gson gson;
     private SuperController sController;
     private Stage primaryStage;
 
     @FXML private Button scanAndUpdateButton;
+    @FXML private Button deleteFilesFromDBButton;
 
-    public MannagerController() {
+    public ManagerController() {
         httpClient = new OkHttpClient();
         gson = new Gson();
     }
@@ -33,6 +33,10 @@ public class MannagerController {
 
     @FXML private void onActionScanAndUpdateButton(){
         sendRequestToUpdateFiles();
+    }
+
+    @FXML private void onActionDeleteFilesFromDBButton(){
+        sController.getDashTabContentController().onDeleteAllFilesFromDB();
     }
 
     private void sendRequestToUpdateFiles(){

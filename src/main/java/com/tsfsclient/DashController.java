@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -47,6 +48,7 @@ public class DashController {
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<City> cityChoiceBox;
     @FXML private ChoiceBox<String> lineChoiceBox;
+    @FXML private CheckBox darkModeCheckBox;
 
     public DashController() {
         fileList = new ArrayList<>();
@@ -108,6 +110,11 @@ public class DashController {
     @FXML
     public void onDeleteAllFile(){
         deleteFile();
+    }
+
+    @FXML
+    private void onActionDarkMode(){
+        changeMode();
     }
 
     private void tryOpenMessagesDirectoryAndDeleteContent(){
@@ -448,5 +455,13 @@ public class DashController {
         }
 
         return res;
+    }
+
+    private void changeMode(){
+        Scene scene=darkModeCheckBox.getScene();
+        scene.getStylesheets().clear();
+        if(darkModeCheckBox.isSelected()){
+            scene.getStylesheets().add(getClass().getResource("darkMode.css").toExternalForm());
+        }
     }
 }

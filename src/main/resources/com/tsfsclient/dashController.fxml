@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -39,7 +40,12 @@
             </TableView>
             <HBox alignment="CENTER_LEFT" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="46.0" prefWidth="74.0" text="refresh" />
+                  <VBox alignment="CENTER" spacing="50.0">
+                     <children>
+                        <CheckBox fx:id="darkModeCheckBox" mnemonicParsing="false" onAction="#onActionDarkMode" text="dark" />
+                        <Button fx:id="refreshButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="46.0" prefWidth="74.0" text="refresh" />
+                     </children>
+                  </VBox>
                   <VBox alignment="CENTER" spacing="10.0">
                      <children>
                         <VBox alignment="CENTER">

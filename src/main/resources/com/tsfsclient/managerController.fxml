@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.MannagerController">
+<ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.ManagerController">
    <content>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -23,6 +23,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="scanAndUpdateButton" mnemonicParsing="false" onAction="#onActionScanAndUpdateButton" text="scan and update file" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="deleteFilesFromDBButton" mnemonicParsing="false" onMouseClicked="#onActionDeleteFilesFromDBButton" prefHeight="50.0" prefWidth="81.0" text="delete files from DB" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </content>
