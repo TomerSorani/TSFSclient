@@ -2,10 +2,7 @@ package com.tsfsclient;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tsfsclient.rappers.FileContainer;
-import com.tsfsclient.rappers.LinesContainer;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
@@ -13,21 +10,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import okhttp3.*;
 import com.google.gson.Gson;
-
 
 public class AddFileController {
     private final int port = 1995;

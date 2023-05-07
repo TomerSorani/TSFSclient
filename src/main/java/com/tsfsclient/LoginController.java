@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -28,9 +25,9 @@ public class LoginController {
     @FXML
     private Label loginErrorLabel;
     @FXML
-    private TextField passwordTextField;
-    @FXML
     private TextField userNameTextField;
+    @FXML
+    private PasswordField passwordField;
     private StringProperty errorMessageProperty;
     private Stage primaryStage;
     private Scene sControllerScene;
@@ -47,13 +44,13 @@ public class LoginController {
     @FXML public void initialize(){
         loginErrorLabel.textProperty().bind(errorMessageProperty);
         userNameTextField.clear();
-        passwordTextField.clear();
+        passwordField.clear();
     }
 
     @FXML
     public void loginButtonClicked(ActionEvent event) {
         String userName = userNameTextField.getText();
-        String password = passwordTextField.getText();
+        String password = passwordField.getText();
         if (userName.isEmpty()) {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
         }

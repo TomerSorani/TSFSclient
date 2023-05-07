@@ -13,7 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import okhttp3.*;
@@ -34,6 +34,7 @@ public class DashController {
     private Stage primaryStage;
     private List<FileContainer> fileList;
     private SimpleBooleanProperty managerProperty;
+    private SimpleBooleanProperty deleteFileAllowProperty;
 
     @FXML private TableView<FileTableViewRow> FileTableView;
     @FXML private TableColumn<FileTableViewRow, String> fileNameCol;
@@ -49,24 +50,31 @@ public class DashController {
     @FXML private ChoiceBox<City> cityChoiceBox;
     @FXML private ChoiceBox<String> lineChoiceBox;
     @FXML private CheckBox darkModeCheckBox;
+    @FXML private VBox deleteFilesVbox;
 
     public DashController() {
         fileList = new ArrayList<>();
         httpClient = new OkHttpClient();
         gson = new Gson();
         managerProperty = new SimpleBooleanProperty(false);
+        deleteFileAllowProperty = new SimpleBooleanProperty(false);
     }
 
     @FXML public void initialize() {
         addCitiesToChoiceBox();
         lineChoiceBox.disableProperty().setValue(false);
-        //deleteFilesFromDBButton.visibleProperty().bind(managerProperty);
-        deleteFilesFromDBButton.setVisible(false);
+        deleteFilesFromDBButton.visibleProperty().bind(managerProperty);
+        deleteFilesVbox.visibleProperty().bind(deleteFileAllowProperty);
+        //deleteFilesFromDBButton.setVisible(false);
     }
 
-    public void ChangeProperties(boolean managerPropertyValue){
-        //managerProperty.setValue(managerPropertyValue);
-        deleteFilesFromDBButton.setVisible(!deleteFilesFromDBButton.visibleProperty().getValue());
+    public void ChangeManagerProperties(boolean managerPropertyValue){
+        managerProperty.setValue(managerPropertyValue);
+        //deleteFilesFromDBButton.setVisible(!deleteFilesFromDBButton.visibleProperty().getValue());
+    }
+
+    public void ChangeDeleteFileAllowProperties(boolean DeleteFileAllowPropertyValue){
+        deleteFileAllowProperty.setValue(DeleteFileAllowPropertyValue);
     }
 
     @FXML
@@ -110,6 +118,31 @@ public class DashController {
     @FXML
     public void onDeleteAllFile(){
         deleteFile();
+    }
+
+    @FXML
+    private void onSelectedCity(){
+        City selectedCity = cityChoiceBox.getSelectionModel().getSelectedItem();
+        List<String> linesList = sendRequestForLinesInCity(selectedCity);
+        lineChoiceBox.disableProperty().setValue(false);
+        onClearLineButton();
+        lineChoiceBox.getItems().removeAll(lineChoiceBox.getItems());
+        lineChoiceBox.getItems().addAll(linesList);
+    }
+
+    @FXML
+    private void onSortByCityLineButton(){
+        if(lineChoiceBox.getSelectionModel().isEmpty()){
+            sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem());
+        }
+        else {
+            sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    @FXML
+    private void onClearLineButton(){
+        lineChoiceBox.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -340,6 +373,7 @@ public class DashController {
     private void addCitiesToChoiceBox(){
         cityChoiceBox.getItems().addAll(City.sort());
     }
+
     private List<String> sendRequestForLinesInCity(City city) {
         List<String> linesList = null;
         String endPoint = "http://localhost:" + sController.port() + "/TSFS/GetLinesAccordingToCity";
@@ -361,30 +395,6 @@ public class DashController {
         }
 
         return linesList;
-    }
-
-    @FXML
-    private void onSelectedCity(){
-        City selectedCity = cityChoiceBox.getSelectionModel().getSelectedItem();
-        List<String> linesList = sendRequestForLinesInCity(selectedCity);
-        lineChoiceBox.disableProperty().setValue(false);
-        onClearLineButton();
-        lineChoiceBox.getItems().removeAll(lineChoiceBox.getItems());
-        lineChoiceBox.getItems().addAll(linesList);
-    }
-
-    @FXML
-    private void onSortByCityLineButton(){
-        if(lineChoiceBox.getSelectionModel().isEmpty()){
-            sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem());
-        }
-        else {
-            sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem());
-        }
-    }
-    @FXML
-    private void onClearLineButton(){
-        lineChoiceBox.getSelectionModel().clearSelection();
     }
 
     private void sendRequestToDeleteAllFilesFromDB() {

@@ -3,7 +3,6 @@ package com.tsfsclient;
 import com.google.gson.Gson;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -61,12 +60,25 @@ public class SuperController {
     private void configPermissionsAccordingToUser(){
         if(userName.equalsIgnoreCase("tomer")){
             managerProperty.setValue(false);
-            dashTabContentController.ChangeProperties(true);
+            dashTabContentController.ChangeManagerProperties(true);
+        }
+        if(userName.equalsIgnoreCase("tomer") ||
+                userName.equalsIgnoreCase("control room")||
+                userName.equalsIgnoreCase("tihnun")){
+            dashTabContentController.ChangeDeleteFileAllowProperties(true);
         }
     }
 
     public static int port() {
         return port;
+    }
+
+    public boolean isManagerProperty() {
+        return managerProperty.get();
+    }
+
+    public SimpleBooleanProperty managerPropertyProperty() {
+        return managerProperty;
     }
 
     public DashController getDashTabContentController() {
