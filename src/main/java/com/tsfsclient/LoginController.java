@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -59,6 +60,8 @@ public class LoginController {
         else {
 
             if(checkIfValidUser(userName, password)){
+                primaryStage.setTitle(primaryStage.getTitle() + " :   "+userName);
+                sController.SetUserName(userName);
                 primaryStage.setScene(sControllerScene);
                 primaryStage.show();
             }
@@ -91,6 +94,7 @@ public class LoginController {
     }
 
     private boolean checkIfValidUser(String userName, String password){
+        boolean validLogin = false;
         String endPoint = "http://localhost:" + sController.port() + "/TSFS/Access";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder()
                 .addQueryParameter("userName", userName)
@@ -101,14 +105,14 @@ public class LoginController {
                 .get()
                 .build();
         try (Response response = httpClient.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new IOException("Unexpected response code: " + response.code());
+            if (response.isSuccessful()) {
+                validLogin = true;
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException("Error sending login request", e);
         }
-        return true;
+        return validLogin;
     }
 }
 

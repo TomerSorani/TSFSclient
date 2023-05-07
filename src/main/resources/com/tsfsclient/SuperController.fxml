@@ -21,7 +21,7 @@
                       <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <fx:include fx:id="dashControllerTabContent" source="dashController.fxml" />
+                        <fx:include fx:id="dashTabContent" source="dashController.fxml" />
                      </children>
                   </GridPane>
                </content>
@@ -36,7 +36,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <fx:include source="‏addFileController.fxml" />
+                        <fx:include fx:id="addFileTabContent" source="‏addFileController.fxml" />
                      </children>
                   </GridPane>
                </content>
@@ -51,7 +51,7 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <fx:include fx:id="ManagerControllerTabContent" source="mannagerController.fxml" />
+                        <fx:include fx:id="ManagerTabContent" source="managerController.fxml" />
                      </children>
                   </GridPane>
               </content>

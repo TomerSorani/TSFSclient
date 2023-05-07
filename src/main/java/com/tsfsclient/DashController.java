@@ -2,6 +2,7 @@ package com.tsfsclient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tsfsclient.rappers.FileContainer;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import okhttp3.*;
@@ -30,6 +32,7 @@ public class DashController {
     private SuperController sController;
     private Stage primaryStage;
     private List<FileContainer> fileList;
+    private SimpleBooleanProperty managerProperty;
 
     @FXML private TableView<FileTableViewRow> FileTableView;
     @FXML private TableColumn<FileTableViewRow, String> fileNameCol;
@@ -49,11 +52,19 @@ public class DashController {
         fileList = new ArrayList<>();
         httpClient = new OkHttpClient();
         gson = new Gson();
+        managerProperty = new SimpleBooleanProperty(false);
     }
 
     @FXML public void initialize() {
         addCitiesToChoiceBox();
-        lineChoiceBox.disableProperty().setValue(true);
+        lineChoiceBox.disableProperty().setValue(false);
+        //deleteFilesFromDBButton.visibleProperty().bind(managerProperty);
+        deleteFilesFromDBButton.setVisible(false);
+    }
+
+    public void ChangeProperties(boolean managerPropertyValue){
+        //managerProperty.setValue(managerPropertyValue);
+        deleteFilesFromDBButton.setVisible(!deleteFilesFromDBButton.visibleProperty().getValue());
     }
 
     @FXML

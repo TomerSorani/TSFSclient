@@ -24,6 +24,8 @@ public class MannagerController {
         gson = new Gson();
     }
 
+    @FXML public void initialize() {}
+
     public void setWorkerSuperController(SuperController sController, Stage primaryStage){
         this.sController = sController;
         this.primaryStage = primaryStage;

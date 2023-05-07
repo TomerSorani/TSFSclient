@@ -136,12 +136,20 @@ public class AddFileController {
         String absolutePath = selectedFile.getAbsolutePath();
 
         FileContainer fileContainer = createFileContainer(absolutePath);
-        //send to server (ok / bad)
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
         try {
             sendRequestToAddFile(fileContainer);
+            alert.setContentText("file added");
             System.out.println("file added");
         }catch (IOException exception){
-            System.out.println("Error");
+            alert.setContentText("Error - file not added");
+            System.out.println("Error - file not added");
+        }
+        finally {
+            alert.showAndWait();
         }
 
 

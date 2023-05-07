@@ -39,7 +39,7 @@
             </TableView>
             <HBox alignment="CENTER_LEFT" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="46.0" prefWidth="53.0" text="refresh" />
+                  <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="46.0" prefWidth="74.0" text="refresh" />
                   <VBox alignment="CENTER" spacing="10.0">
                      <children>
                         <VBox alignment="CENTER">
