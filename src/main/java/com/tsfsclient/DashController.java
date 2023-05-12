@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -34,7 +33,7 @@ public class DashController {
     private Stage primaryStage;
     private List<FileContainer> fileList;
     private SimpleBooleanProperty managerProperty;
-    private SimpleBooleanProperty deleteFileAllowProperty;
+    private SimpleBooleanProperty addDeleteFileAllowProperty;
 
     @FXML private TableView<FileTableViewRow> FileTableView;
     @FXML private TableColumn<FileTableViewRow, String> fileNameCol;
@@ -44,6 +43,7 @@ public class DashController {
     @FXML private Button sortByDateButton;
     @FXML private Button deleteFilesFromDBButton;
     @FXML private Button deleteFileButton;
+    @FXML private Button sortByCityLineButton;
     @FXML private TextField deleteFileTextField;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
@@ -51,35 +51,43 @@ public class DashController {
     @FXML private ChoiceBox<String> lineChoiceBox;
     @FXML private CheckBox darkModeCheckBox;
     @FXML private VBox deleteFilesVbox;
+    @FXML private VBox lineFilterVbox;
+    @FXML private VBox cityFilterVbox;
 
     public DashController() {
         fileList = new ArrayList<>();
         httpClient = new OkHttpClient();
         gson = new Gson();
         managerProperty = new SimpleBooleanProperty(false);
-        deleteFileAllowProperty = new SimpleBooleanProperty(false);
+        addDeleteFileAllowProperty = new SimpleBooleanProperty(false);
     }
 
     @FXML public void initialize() {
         addCitiesToChoiceBox();
         lineChoiceBox.disableProperty().setValue(false);
         deleteFilesFromDBButton.visibleProperty().bind(managerProperty);
-        deleteFilesVbox.visibleProperty().bind(deleteFileAllowProperty);
-        //deleteFilesFromDBButton.setVisible(false);
+        deleteFilesVbox.visibleProperty().bind(addDeleteFileAllowProperty);
+        refreshButtonClicked();
     }
 
     public void ChangeManagerProperties(boolean managerPropertyValue){
         managerProperty.setValue(managerPropertyValue);
-        //deleteFilesFromDBButton.setVisible(!deleteFilesFromDBButton.visibleProperty().getValue());
     }
 
-    public void ChangeDeleteFileAllowProperties(boolean DeleteFileAllowPropertyValue){
-        deleteFileAllowProperty.setValue(DeleteFileAllowPropertyValue);
+    public void ChangeAddAndDeleteFileAllowProperties(boolean AddDeleteFileAllowPropertyValue){
+        addDeleteFileAllowProperty.setValue(AddDeleteFileAllowPropertyValue);
     }
 
     @FXML
-    public void refreshButtonClicked(ActionEvent event){
+    public void refreshButtonClicked(){
         sendRefreshRequest();
+        startDatePicker.getEditor().clear();
+        endDatePicker.getEditor().clear();
+        cityChoiceBox.getSelectionModel().clearSelection();
+        lineChoiceBox.getSelectionModel().clearSelection();
+        lineFilterVbox.setDisable(true);
+        cityFilterVbox.setDisable(true);
+        sortByCityLineButton.setDisable(true);
     }
 
     @FXML
@@ -104,7 +112,24 @@ public class DashController {
     public void onSortByDateButton(){
         LocalDate startSelectedDate = startDatePicker.getValue();
         LocalDate endSelectedDate = endDatePicker.getValue();
-        sortTableViewByDate(startSelectedDate, endSelectedDate);
+        if(!checkIfStartAndEndTimeValid(startSelectedDate, endSelectedDate)){
+            cityFilterVbox.setDisable(true);
+            sortByCityLineButton.setDisable(true);
+            lineFilterVbox.setDisable(true);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("you have to pick correct start time ane end time");
+            alert.showAndWait();
+            startDatePicker.getEditor().clear();
+            endDatePicker.getEditor().clear();
+        }
+        else {
+            sortTableViewByDate(startSelectedDate, endSelectedDate,true);
+            cityFilterVbox.setDisable(false);
+            lineFilterVbox.setDisable(true);
+            sortByCityLineButton.setDisable(false);
+        }
     }
 
     @FXML
@@ -128,15 +153,21 @@ public class DashController {
         onClearLineButton();
         lineChoiceBox.getItems().removeAll(lineChoiceBox.getItems());
         lineChoiceBox.getItems().addAll(linesList);
+        if(!cityChoiceBox.getSelectionModel().isEmpty()){
+            lineFilterVbox.setDisable(false);
+        }
     }
 
     @FXML
     private void onSortByCityLineButton(){
+        LocalDate startSelectedDate = startDatePicker.getValue();
+        LocalDate endSelectedDate = endDatePicker.getValue();
+        List<FileContainer> filesOnDate = sortTableViewByDate(startSelectedDate,endSelectedDate,false);
         if(lineChoiceBox.getSelectionModel().isEmpty()){
-            sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem());
+            sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem(), filesOnDate);
         }
         else {
-            sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem());
+            sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem(), filesOnDate);
         }
     }
 
@@ -231,7 +262,7 @@ public class DashController {
         }
     }
 
-    private void sortTableViewByDate(LocalDate startSelectedDate, LocalDate endSelectedDate){
+    private List<FileContainer> sortTableViewByDate(LocalDate startSelectedDate, LocalDate endSelectedDate, boolean addToList){
         List<FileContainer> filesOnDate = new ArrayList<>();
         for(FileContainer fileContainer : fileList){
             LocalDate startTime = LocalDate.of(Integer.parseInt(fileContainer.getStartYear()), Integer.parseInt(fileContainer.getStartMonth()), Integer.parseInt(fileContainer.getStartDay()));
@@ -241,12 +272,16 @@ public class DashController {
                 filesOnDate.add(fileContainer);
             }
         }
-        updateTableView(filesOnDate);
+        if(addToList){
+            updateTableView(filesOnDate);
+        }
+
+        return filesOnDate;
     }
 
-    private void sortTableViewByline(String line){
+    private void sortTableViewByline(String line, List<FileContainer> filesOnDate){
         List<FileContainer> filesAboutLine = new ArrayList<>();
-        for(FileContainer fileContainer : fileList){
+        for(FileContainer fileContainer : filesOnDate){
             if (Arrays.stream(fileContainer.getLinesArray()).toList().contains(line)) {
                 filesAboutLine.add(fileContainer);
             }
@@ -254,9 +289,9 @@ public class DashController {
         updateTableView(filesAboutLine);
     }
 
-    private void sortTableViewByCity(City city){
+    private void sortTableViewByCity(City city, List<FileContainer> filesOnDate){
         List<FileContainer> filesAboutLine = new ArrayList<>();
-        for(FileContainer fileContainer : fileList){
+        for(FileContainer fileContainer : filesOnDate){
             if (Arrays.stream(fileContainer.getCitiesArray()).toList().contains(city.name())) {
                 filesAboutLine.add(fileContainer);
             }
@@ -473,5 +508,10 @@ public class DashController {
         if(darkModeCheckBox.isSelected()){
             scene.getStylesheets().add(getClass().getResource("darkMode.css").toExternalForm());
         }
+    }
+
+    private boolean checkIfStartAndEndTimeValid(LocalDate startSelectedDate, LocalDate endSelectedDate){
+        return (startSelectedDate != null && endSelectedDate != null)
+                &&(startSelectedDate.isBefore(endSelectedDate) || startSelectedDate.equals(endSelectedDate));
     }
 }

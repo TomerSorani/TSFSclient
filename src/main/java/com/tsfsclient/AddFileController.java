@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import okhttp3.*;
 import com.google.gson.Gson;
@@ -136,13 +137,12 @@ public class AddFileController {
             alert.setContentText("file added");
             System.out.println("file added");
         }catch (IOException exception){
-            alert.setContentText("Error - file not added");
-            System.out.println("Error - file not added");
+            alert.setContentText("Error - file not added. " + exception.getMessage());
+            System.out.println("Error - file not added" + exception.getMessage());
         }
         finally {
             alert.showAndWait();
         }
-
 
         try {
             copyFile(absolutePath);
@@ -251,7 +251,8 @@ public class AddFileController {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                throw new IOException("Unexpected code " + response);
+                //throw new IOException("Unexpected code " + response);
+                throw new IOException(Objects.requireNonNull(response.body()).string());
             }
         }
     }

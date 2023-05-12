@@ -68,16 +68,24 @@
                   </VBox>
                   <VBox spacing="5.0">
                      <children>
-                        <Label minWidth="-Infinity" text="city" />
-                        <ChoiceBox fx:id="cityChoiceBox" prefWidth="150.0" />
-                        <Button fx:id="selectedCityButton" mnemonicParsing="false" onMouseClicked="#onSelectedCity" text="search lines in city" />
-                        <HBox spacing="25.0">
+                        <VBox fx:id="cityFilterVbox">
                            <children>
-                              <Label minWidth="-Infinity" text="line" />
-                              <Button fx:id="clearLineButton" contentDisplay="BOTTOM" mnemonicParsing="false" onMouseClicked="#onClearLineButton" text="clear line" />
+                              <Label minWidth="-Infinity" text="city" />
+                              <ChoiceBox fx:id="cityChoiceBox" prefWidth="150.0" />
+                              <Button fx:id="selectedCityButton" mnemonicParsing="false" onMouseClicked="#onSelectedCity" text="search lines in city" />
                            </children>
-                        </HBox>
-                        <ChoiceBox fx:id="lineChoiceBox" prefWidth="150.0" />
+                        </VBox>
+                        <VBox fx:id="lineFilterVbox">
+                           <children>
+                              <HBox spacing="25.0">
+                                 <children>
+                                    <Label minWidth="-Infinity" text="line" />
+                                    <Button fx:id="clearLineButton" contentDisplay="BOTTOM" mnemonicParsing="false" onMouseClicked="#onClearLineButton" text="clear line" />
+                                 </children>
+                              </HBox>
+                              <ChoiceBox fx:id="lineChoiceBox" prefWidth="150.0" />
+                           </children>
+                        </VBox>
                         <Button fx:id="sortByCityLineButton" mnemonicParsing="false" onMouseClicked="#onSortByCityLineButton" text="sort" />
                      </children>
                   </VBox>

@@ -23,14 +23,17 @@ public class SuperController {
     @FXML private ManagerController ManagerTabContentController;
     @FXML private TabPane controlTabPane;
     @FXML private Tab ManagerTab;
+    @FXML private Tab AddFileTab;
 
     private String userName;
     private SimpleBooleanProperty managerProperty;
+    private SimpleBooleanProperty addDeleteFileAllowProperty;
 
     public SuperController() {
         httpClient = new OkHttpClient();
         gson = new Gson();
         managerProperty = new SimpleBooleanProperty(true);
+        addDeleteFileAllowProperty = new SimpleBooleanProperty(true);
     }
 
     @FXML public void initialize() {
@@ -45,6 +48,7 @@ public class SuperController {
         }
 
         ManagerTab.disableProperty().bind(managerProperty);
+        AddFileTab.disableProperty().bind(addDeleteFileAllowProperty.and(managerProperty));
     }
 
     public void setPrimaryStage(Stage primaryStage){
@@ -65,7 +69,8 @@ public class SuperController {
         if(userName.equalsIgnoreCase("tomer") ||
                 userName.equalsIgnoreCase("control room")||
                 userName.equalsIgnoreCase("tihnun")){
-            dashTabContentController.ChangeDeleteFileAllowProperties(true);
+            addDeleteFileAllowProperty.setValue(false);
+            dashTabContentController.ChangeAddAndDeleteFileAllowProperties(true);
         }
     }
 
