@@ -61,8 +61,8 @@ public class AddFileController {
         cityListView.getItems().addAll(City.sort());
         selectedDatePickerProperty.bind(startDatePicker.valueProperty().isNull().or(endDatePicker.valueProperty().isNull()));
 
-//        addFileButton.disableProperty().bind(selectedDatePickerProperty.and(
-//                fileNameTextField.textProperty().isEmpty()));
+        addFileButton.disableProperty().bind(selectedDatePickerProperty.or(
+                fileNameTextField.textProperty().isEmpty()));
 
     }
 
@@ -98,7 +98,9 @@ public class AddFileController {
     private void onMouseClickSelectedLinesListView() {
         String line = selectedLinesListView.getSelectionModel().getSelectedItem();
         if (line != null) {
-            linesListView.getItems().add(selectedLinesListView.getSelectionModel().getSelectedItem());
+            if(!linesListView.getItems().contains(line)){
+                linesListView.getItems().add(selectedLinesListView.getSelectionModel().getSelectedItem());
+            }
             selectedLinesListView.getItems().remove(line);
             Collections.sort(linesListView.getItems());
             Collections.sort(selectedLinesListView.getItems());
@@ -136,6 +138,7 @@ public class AddFileController {
             sendRequestToAddFile(fileContainer);
             alert.setContentText("file added");
             System.out.println("file added");
+            clearTab();
         }catch (IOException exception){
             alert.setContentText("Error - file not added. " + exception.getMessage());
             System.out.println("Error - file not added" + exception.getMessage());
@@ -156,7 +159,8 @@ public class AddFileController {
         selectedCityListView.getItems().removeAll(selectedCityListView.getItems());
         linesListView.getItems().removeAll(linesListView.getItems());
         selectedLinesListView.getItems().removeAll(selectedLinesListView.getItems());
-
+        cityListView.getItems().removeAll(cityListView.getItems());
+        cityListView.getItems().addAll(City.sort());
     }
 
     private FileContainer createFileContainer(String absolutePath){
@@ -255,5 +259,12 @@ public class AddFileController {
                 throw new IOException(Objects.requireNonNull(response.body()).string());
             }
         }
+    }
+
+    private void clearTab(){
+        onClearSelectedCitiesButton();
+        fileNameTextField.clear();
+        startDatePicker.getEditor().clear();
+        endDatePicker.getEditor().clear();
     }
 }

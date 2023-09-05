@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tsfsclient.LoginController">
    <content>
@@ -23,7 +24,8 @@
             <RowConstraints maxHeight="-Infinity" minHeight="5.0" prefHeight="5.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="NEVER" />
           <RowConstraints maxHeight="260.0" minHeight="10.0" prefHeight="211.0" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="79.0" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="98.40001220703124" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="19.99998779296874" vgrow="ALWAYS" />
             <RowConstraints maxHeight="-Infinity" minHeight="5.0" prefHeight="5.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
@@ -52,6 +54,15 @@
             <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="31.0" prefWidth="286.0" text="login" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Label alignment="CENTER" prefHeight="10.0" prefWidth="50.0" text="Tomer Sorani">
+                     <font>
+                        <Font size="6.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
          </children>

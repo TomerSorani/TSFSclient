@@ -2,6 +2,7 @@ package com.tsfsclient;
 
 import com.google.gson.Gson;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import okhttp3.HttpUrl;
@@ -18,6 +19,9 @@ public class ManagerController {
 
     @FXML private Button scanAndUpdateButton;
     @FXML private Button deleteFilesFromDBButton;
+    @FXML private Button onButton;
+    @FXML private Button offButton;
+
 
     public ManagerController() {
         httpClient = new OkHttpClient();
@@ -39,6 +43,14 @@ public class ManagerController {
         sController.getDashTabContentController().onDeleteAllFilesFromDB();
     }
 
+    @FXML private void onActionOnButton(){
+        sendRequestToChangeAvailabilityMode(true);
+    }
+
+    @FXML private void onActionOffButton(){
+        sendRequestToChangeAvailabilityMode(false);
+    }
+
     private void sendRequestToUpdateFiles(){
         String endPoint = "http://localhost:" + sController.port() + "/TSFS/ScanAndDeleteNonFiles";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
@@ -50,6 +62,43 @@ public class ManagerController {
             if (!response.isSuccessful()) {
                 throw new IOException("Unexpected response code: " + response.code());
             }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void sendRequestToChangeAvailabilityMode(boolean mode){
+        String endPoint;
+        if(mode){
+            endPoint = "http://localhost:" + sController.port() + "/TSFS/ActiveAvailability";
+
+        }
+        else {
+            endPoint = "http://localhost:" + sController.port() + "/TSFS/TurnOffAvailability";
+
+        }
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
+        Request request = new Request.Builder()
+                .url(urlBuilder.build().toString())
+                .get()
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            if(mode){
+                alert.setContentText("Active");
+            }
+            else {
+                alert.setContentText("Not active");
+            }
+            alert.showAndWait();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
