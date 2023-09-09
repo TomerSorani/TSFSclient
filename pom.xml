@@ -146,5 +146,6 @@
             </plugin>
 
         </plugins>
+        <finalName>TSFS-client</finalName>
     </build>
 </project>
