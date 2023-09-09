@@ -89,11 +89,30 @@
                         <Button fx:id="sortByCityLineButton" mnemonicParsing="false" onMouseClicked="#onSortByCityLineButton" text="sort" />
                      </children>
                   </VBox>
-                  <VBox fx:id="deleteFilesVbox">
+                  <VBox>
                      <children>
-                        <Button fx:id="deleteFilesFromDBButton" mnemonicParsing="false" onMouseClicked="#onDeleteAllFilesFromDB" prefHeight="50.0" prefWidth="81.0" text="delete files from DB" wrapText="true" />
-                        <Button fx:id="deleteFileButton" mnemonicParsing="false" onMouseClicked="#onDeleteAllFile" text="delete file" />
-                        <TextField fx:id="deleteFileTextField" />
+                        <VBox spacing="10.0">
+                           <children>
+                              <VBox fx:id="deleteFilesVbox">
+                                 <children>
+                                    <Button fx:id="deleteFilesFromDBButton" mnemonicParsing="false" onMouseClicked="#onDeleteAllFilesFromDB" prefHeight="50.0" prefWidth="81.0" text="delete files from DB" wrapText="true" />
+                                    <Button fx:id="deleteFileButton" mnemonicParsing="false" onMouseClicked="#onDeleteAllFile" text="delete file" />
+                                    <TextField fx:id="deleteFileTextField" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="branchSortVBox" spacing="5.0">
+                                 <children>
+                                    <HBox alignment="CENTER" spacing="20.0">
+                                       <children>
+                                          <Label prefHeight="18.0" prefWidth="48.0" text="Branch" />
+                                          <Button fx:id="sortByBranchLineButton" mnemonicParsing="false" onMouseClicked="#onSortByBranchLineButton" text="sort" />
+                                       </children>
+                                    </HBox>
+                                    <ChoiceBox fx:id="branchChoiceBox" prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
                </children>

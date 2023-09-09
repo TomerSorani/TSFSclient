@@ -41,6 +41,7 @@ public class DashController {
     @FXML private TableColumn<FileTableViewRow, String> citiesCol;
     @FXML private Button refreshButton;
     @FXML private Button sortByDateButton;
+    @FXML private Button sortByBranchLineButton;
     @FXML private Button deleteFilesFromDBButton;
     @FXML private Button deleteFileButton;
     @FXML private Button sortByCityLineButton;
@@ -49,10 +50,12 @@ public class DashController {
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<City> cityChoiceBox;
     @FXML private ChoiceBox<String> lineChoiceBox;
+    @FXML private ChoiceBox<Branch> branchChoiceBox;
     @FXML private CheckBox darkModeCheckBox;
     @FXML private VBox deleteFilesVbox;
     @FXML private VBox lineFilterVbox;
     @FXML private VBox cityFilterVbox;
+    @FXML private VBox branchSortVBox;
 
     public DashController() {
         fileList = new ArrayList<>();
@@ -64,6 +67,7 @@ public class DashController {
 
     @FXML public void initialize() {
         addCitiesToChoiceBox();
+        addBranchesToChoiceBox();
         lineChoiceBox.disableProperty().setValue(false);
         deleteFilesFromDBButton.visibleProperty().bind(managerProperty);
         deleteFilesVbox.visibleProperty().bind(addDeleteFileAllowProperty);
@@ -81,13 +85,15 @@ public class DashController {
     @FXML
     public void refreshButtonClicked(){
         sendRefreshRequest();
-        startDatePicker.getEditor().clear();
-        endDatePicker.getEditor().clear();
+        //startDatePicker.getEditor().clear();
+        //endDatePicker.getEditor().clear();
         cityChoiceBox.getSelectionModel().clearSelection();
         lineChoiceBox.getSelectionModel().clearSelection();
+        branchChoiceBox.getSelectionModel().clearSelection();
         lineFilterVbox.setDisable(true);
         cityFilterVbox.setDisable(true);
         sortByCityLineButton.setDisable(true);
+        branchSortVBox.setDisable(true);
     }
 
     @FXML
@@ -126,9 +132,13 @@ public class DashController {
         }
         else {
             sortTableViewByDate(startSelectedDate, endSelectedDate,true);
+            branchChoiceBox.getSelectionModel().clearSelection();
+            cityChoiceBox.getSelectionModel().clearSelection();
+            lineChoiceBox.getSelectionModel().clearSelection();
             cityFilterVbox.setDisable(false);
             lineFilterVbox.setDisable(true);
             sortByCityLineButton.setDisable(false);
+            branchSortVBox.setDisable(false);
         }
     }
 
@@ -147,27 +157,54 @@ public class DashController {
 
     @FXML
     private void onSelectedCity(){
-        City selectedCity = cityChoiceBox.getSelectionModel().getSelectedItem();
-        List<String> linesList = sendRequestForLinesInCity(selectedCity);
-        lineChoiceBox.disableProperty().setValue(false);
-        onClearLineButton();
-        lineChoiceBox.getItems().removeAll(lineChoiceBox.getItems());
-        lineChoiceBox.getItems().addAll(linesList);
-        if(!cityChoiceBox.getSelectionModel().isEmpty()){
-            lineFilterVbox.setDisable(false);
+        if(cityChoiceBox.getSelectionModel().isEmpty()){
+            popUpWrongSelection();
+        }
+        else {
+            City selectedCity = cityChoiceBox.getSelectionModel().getSelectedItem();
+            List<String> linesList = sendRequestForLinesInCity(selectedCity);
+            lineChoiceBox.disableProperty().setValue(false);
+            onClearLineButton();
+            lineChoiceBox.getItems().removeAll(lineChoiceBox.getItems());
+            lineChoiceBox.getItems().addAll(linesList);
+            if(!cityChoiceBox.getSelectionModel().isEmpty()){
+                lineFilterVbox.setDisable(false);
+            }
         }
     }
 
     @FXML
     private void onSortByCityLineButton(){
-        LocalDate startSelectedDate = startDatePicker.getValue();
-        LocalDate endSelectedDate = endDatePicker.getValue();
-        List<FileContainer> filesOnDate = sortTableViewByDate(startSelectedDate,endSelectedDate,false);
-        if(lineChoiceBox.getSelectionModel().isEmpty()){
-            sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem(), filesOnDate);
+        if(cityChoiceBox.getSelectionModel().isEmpty()){
+            popUpWrongSelection();
         }
         else {
-            sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem(), filesOnDate);
+            branchChoiceBox.getSelectionModel().clearSelection();
+            LocalDate startSelectedDate = startDatePicker.getValue();
+            LocalDate endSelectedDate = endDatePicker.getValue();
+            List<FileContainer> filesOnDate = sortTableViewByDate(startSelectedDate,endSelectedDate,false);
+            if(lineChoiceBox.getSelectionModel().isEmpty()){
+                sortTableViewByCity(cityChoiceBox.getSelectionModel().getSelectedItem(), filesOnDate);
+            }
+            else {
+                sortTableViewByline(lineChoiceBox.getSelectionModel().getSelectedItem(), filesOnDate);
+            }
+        }
+    }
+
+    @FXML
+    private void onSortByBranchLineButton(){
+        if(branchChoiceBox.getSelectionModel().isEmpty()){
+            popUpWrongSelection();
+        }
+        else {
+            cityChoiceBox.getSelectionModel().clearSelection();
+            lineChoiceBox.getSelectionModel().clearSelection();
+            LocalDate startSelectedDate = startDatePicker.getValue();
+            LocalDate endSelectedDate = endDatePicker.getValue();
+            List<FileContainer> filesOnDate = sortTableViewByDate(startSelectedDate,endSelectedDate,false);
+            Branch selectedBranch = branchChoiceBox.getSelectionModel().getSelectedItem();
+            sortByBranchAndAddFiles(filesOnDate,selectedBranch);
         }
     }
 
@@ -179,6 +216,29 @@ public class DashController {
     @FXML
     private void onActionDarkMode(){
         changeMode();
+    }
+
+    private void popUpWrongSelection(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("you have to pick something..");
+        alert.showAndWait();
+    }
+
+    private void sortByBranchAndAddFiles(List<FileContainer> files, Branch selectedBranch){
+        List<FileContainer> filesInBranch = new ArrayList<>();
+        for(FileContainer file : files){
+            String [] lines = file.getLinesArray();
+            for(String line : lines){
+                if(selectedBranch.isLineAsStringInBranch(line)){
+                    filesInBranch.add(file);
+                    break;
+                }
+            }
+        }
+
+        updateTableView(filesInBranch);
     }
 
     private void tryOpenMessagesDirectoryAndDeleteContent(){
@@ -407,6 +467,10 @@ public class DashController {
 
     private void addCitiesToChoiceBox(){
         cityChoiceBox.getItems().addAll(City.sort());
+    }
+
+    private void addBranchesToChoiceBox(){
+        branchChoiceBox.getItems().addAll(Branch.sort());
     }
 
     private List<String> sendRequestForLinesInCity(City city) {

@@ -29,6 +29,14 @@ public enum City {
     NETIVOT("נתיבות"),
     KIRYAT_GAT("קריית-גת"),
     MODIIN("מודיעין"),
+    SHOAM("שוהם"),
+    BAREKET("ברקת"),
+    LOD("לוד"),
+    YAHOD("יהוד"),
+    YAVNE("יבנה"),
+    OR_YAHODA("אור יהודה"),
+    GIVAT_SHMUEL("גבעת שמואל"),
+    NATBAG("נתבג"),
     ASHDOD("אשדוד"),
     JERUSALEM("ירושלים"),
     BEIT_SHEMESH("בית-שמש"),
@@ -37,7 +45,8 @@ public enum City {
     KALANSUA("קלנסואה"),
     RISHON_LETZION("ראשון-לציון"),
     NETANYA("נתניה"),
-    BEER_SHEVA("באר-שבע");
+    BEER_SHEVA("באר-שבע"),
+    ARARA_DAROM("ערערה-דרום");
 
     private final String displayName;
 
