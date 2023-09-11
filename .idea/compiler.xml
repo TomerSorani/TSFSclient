@@ -9,8 +9,5 @@
         <module name="TSFSclient" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="TSFSclient" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
