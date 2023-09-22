@@ -63,12 +63,14 @@ public class SuperController {
     }
 
     private void configPermissionsAccordingToUser(){
-        if(userName.equalsIgnoreCase("tomer")){
+        if(userName.equalsIgnoreCase("tomer") ||
+                userName.equalsIgnoreCase("one piece")){
             managerProperty.setValue(false);
             dashTabContentController.ChangeManagerProperties(true);
         }
         if(userName.equalsIgnoreCase("tomer") ||
                 userName.equalsIgnoreCase("control room")||
+                userName.equalsIgnoreCase("bakara")||
                 userName.equalsIgnoreCase("tihnun")){
             addDeleteFileAllowProperty.setValue(false);
             dashTabContentController.ChangeAddAndDeleteFileAllowProperties(true);
