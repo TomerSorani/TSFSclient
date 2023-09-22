@@ -71,7 +71,6 @@ public class DashController {
         lineChoiceBox.disableProperty().setValue(false);
         deleteFilesFromDBButton.visibleProperty().bind(managerProperty);
         deleteFilesVbox.visibleProperty().bind(addDeleteFileAllowProperty);
-        refreshButtonClicked();
     }
 
     public void ChangeManagerProperties(boolean managerPropertyValue){

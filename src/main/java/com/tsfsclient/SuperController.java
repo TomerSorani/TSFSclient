@@ -59,6 +59,7 @@ public class SuperController {
     public void SetUserName(String userName){
         this.userName = userName;
         configPermissionsAccordingToUser();
+        dashTabContentController.refreshButtonClicked();
     }
 
     private void configPermissionsAccordingToUser(){
