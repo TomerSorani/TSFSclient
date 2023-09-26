@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public enum City {
+    ELSE(".אחר"),
     ARAD("ערד"),
     KFAR_SABA("כפר-סבא"),
     RAANANA("רעננה"),
