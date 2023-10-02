@@ -37,6 +37,7 @@ public enum City {
     YAVNE("יבנה"),
     OR_YAHODA("אור יהודה"),
     GIVAT_SHMUEL("גבעת שמואל"),
+    GANEI_TIQUA("גני תקווה"),
     NATBAG("נתבג"),
     ASHDOD("אשדוד"),
     JERUSALEM("ירושלים"),
