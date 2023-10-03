@@ -202,6 +202,7 @@ public enum Line {
     L_587_ARAD,
     L_588_ARAD,
     L_589_ARAD,
+    L_595_ELAD,
     L_600_NETANYA,
     L_601_NETANYA,
     L_602_NETANYA,
