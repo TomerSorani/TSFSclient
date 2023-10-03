@@ -12,6 +12,9 @@ import okhttp3.OkHttpClient;
 public class SuperController {
     private Stage primaryStage;
     private static int port = 1995;
+
+    private static String IP = "localhost:";
+
     private final OkHttpClient httpClient;
     private Gson gson;
 
@@ -83,6 +86,10 @@ public class SuperController {
 
     public static int port() {
         return port;
+    }
+
+    public static String IP() {
+        return IP;
     }
 
     public boolean isManagerProperty() {

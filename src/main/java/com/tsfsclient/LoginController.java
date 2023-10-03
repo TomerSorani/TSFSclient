@@ -92,7 +92,7 @@ public class LoginController {
 
     private boolean checkIfValidUser(String userName, String password){
         boolean validLogin = false;
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/Access";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/Access";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder()
                 .addQueryParameter("userName", userName)
                         .addQueryParameter("password", password);

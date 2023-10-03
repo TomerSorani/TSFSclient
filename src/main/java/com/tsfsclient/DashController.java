@@ -312,7 +312,7 @@ public class DashController {
     }
 
     private void sendRefreshRequest(){
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/GetFiles";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/GetFiles";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
         Request request = new Request.Builder()
                 .url(urlBuilder.build().toString())
@@ -441,7 +441,7 @@ public class DashController {
     }
 
     private String sendRequestToGetFileLocation(String fileName) {
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/GetFileLocationAccordingToFileName";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/GetFileLocationAccordingToFileName";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
         urlBuilder.addQueryParameter("fileName", fileName); // Add query parameter for fileName
         Request request = new Request.Builder()
@@ -489,7 +489,7 @@ public class DashController {
 
     private List<String> sendRequestForLinesInCity(City city) {
         List<String> linesList = null;
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/GetLinesAccordingToCity";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/GetLinesAccordingToCity";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
         urlBuilder.addQueryParameter("city", String.valueOf(city.name()));
         Request request = new Request.Builder()
@@ -511,7 +511,7 @@ public class DashController {
     }
 
     private void sendRequestToDeleteAllFilesFromDB() {
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/DeleteFilesFromDB";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/DeleteFilesFromDB";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
         Request request = new Request.Builder()
                 .url(urlBuilder.build().toString())
@@ -542,7 +542,7 @@ public class DashController {
     }
 
     private void sendRequestToDeleteFile(String fileToDeleteName) {
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/DeleteFile";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/DeleteFile";
 //        HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
 //        JsonObject json = new JsonObject();
 //        json.addProperty("fileName", fileToDeleteName);

@@ -52,7 +52,7 @@ public class ManagerController {
     }
 
     private void sendRequestToUpdateFiles(){
-        String endPoint = "http://localhost:" + sController.port() + "/TSFS/ScanAndDeleteNonFiles";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/ScanAndDeleteNonFiles";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
         Request request = new Request.Builder()
                 .url(urlBuilder.build().toString())
@@ -71,11 +71,11 @@ public class ManagerController {
     private void sendRequestToChangeAvailabilityMode(boolean mode){
         String endPoint;
         if(mode){
-            endPoint = "http://localhost:" + sController.port() + "/TSFS/ActiveAvailability";
+            endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/ActiveAvailability";
 
         }
         else {
-            endPoint = "http://localhost:" + sController.port() + "/TSFS/TurnOffAvailability";
+            endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/TurnOffAvailability";
 
         }
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();

@@ -22,7 +22,6 @@ import okhttp3.*;
 import com.google.gson.Gson;
 
 public class AddFileController {
-    private final int port = 1995;
     private final OkHttpClient httpClient;
     private Gson gson;
     private SuperController sController;
@@ -205,7 +204,7 @@ public class AddFileController {
 
     private List<String> sendRequestForLinesInCity(City city) {
         List<String> linesList = null;
-        String endPoint = "http://localhost:" + port + "/TSFS/GetLinesAccordingToCity";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/GetLinesAccordingToCity";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
         urlBuilder.addQueryParameter("city", String.valueOf(city.name()));
         Request request = new Request.Builder()
@@ -227,7 +226,7 @@ public class AddFileController {
     }
 
     private void sendRequestToAddFile(FileContainer fileContainer) throws IOException {
-        String endPoint = "http://localhost:" + port + "/TSFS/AddFile";
+        String endPoint = "http://" + sController.IP() + sController.port() + "/TSFS/AddFile";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(endPoint).newBuilder();
 
         // Create a JSON object and add all the fields of the FileContainer to it
