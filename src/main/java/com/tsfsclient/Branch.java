@@ -43,9 +43,9 @@ public enum Branch {
             Line.L_621_NETANYA,Line.L_623_NETANYA,Line.L_624_NETANYA,Line.L_650_NETANYA,Line.L_699_NETANYA,Line.ELSE}),
 
     ELAD("אלעד", new Line[]{Line.L_004_ELAD,Line.L_005_ELAD,Line.L_006_ELAD,Line.L_173_ELAD,Line.L_174_ELAD,Line.L_176_ELAD,Line.L_179_ELAD,Line.L_180_ELAD,Line.L_251_ELAD,Line.L_270_ELAD,Line.L_276_ELAD,Line.L_277_ELAD,Line.L_278_ELAD,Line.L_279_ELAD,
-            Line.L_280_ELAD,Line.L_281_ELAD,Line.L_282_ELAD,Line.L_283_ELAD,Line.L_377_ELAD,Line.L_379_ELAD,Line.L_380_ELAD,Line.L_444_ELAD,Line.L_445_ELAD,Line.L_446_ELAD,Line.L_453_ELAD,Line.L_477_ELAD,Line.L_577_ELAD,Line.L_595_ELAD, Line.ELSE}),
+            Line.L_280_ELAD,Line.L_281_ELAD,Line.L_282_ELAD,Line.L_283_ELAD,Line.L_377_ELAD,Line.L_379_ELAD,Line.L_380_ELAD,Line.L_444_ELAD,Line.L_445_ELAD,Line.L_446_ELAD,Line.L_453_ELAD,Line.L_477_ELAD,Line.L_577_ELAD,Line.L_590_ELAD, Line.L_595_ELAD,Line.L_596_ELAD, Line.L_597_ELAD, Line.ELSE}),
 
-    UNO("אונו", new Line[]{Line.L_007_ONO, Line.L_008_ONO, Line.L_015_ONO, Line.L_055_ONO, Line.L_068_ONO,Line.L_115_ONO, Line.L_168_ONO, Line.ELSE});
+    UNO("אונו", new Line[]{Line.L_007_YAHOD, Line.L_008_ONO, Line.L_015_ONO, Line.L_055_ONO, Line.L_068_ONO,Line.L_115_ONO, Line.L_168_ONO, Line.ELSE});
 
 
 
