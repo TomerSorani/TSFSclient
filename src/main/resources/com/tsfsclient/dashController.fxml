@@ -70,7 +70,7 @@
                      <children>
                         <VBox fx:id="cityFilterVbox">
                            <children>
-                              <Label minWidth="-Infinity" text="city" />
+                              <Label minWidth="-Infinity" onMouseClicked="#onClickedCityLabel" text="city" />
                               <ChoiceBox fx:id="cityChoiceBox" prefWidth="150.0" />
                               <Button fx:id="selectedCityButton" mnemonicParsing="false" onMouseClicked="#onSelectedCity" text="search lines in city" />
                            </children>
@@ -79,7 +79,7 @@
                            <children>
                               <HBox spacing="25.0">
                                  <children>
-                                    <Label minWidth="-Infinity" text="line" />
+                                    <Label minWidth="-Infinity" onMouseClicked="#onClickedLineLabel" text="line" />
                                     <Button fx:id="clearLineButton" contentDisplay="BOTTOM" mnemonicParsing="false" onMouseClicked="#onClearLineButton" text="clear line" />
                                  </children>
                               </HBox>
@@ -104,7 +104,7 @@
                                  <children>
                                     <HBox alignment="CENTER" spacing="20.0">
                                        <children>
-                                          <Label prefHeight="18.0" prefWidth="48.0" text="Branch" />
+                                          <Label onMouseClicked="#onClickedBranchLabel" prefHeight="18.0" prefWidth="48.0" text="Branch" />
                                           <Button fx:id="sortByBranchLineButton" mnemonicParsing="false" onMouseClicked="#onSortByBranchLineButton" text="sort" />
                                        </children>
                                     </HBox>

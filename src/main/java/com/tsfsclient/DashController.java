@@ -217,6 +217,21 @@ public class DashController {
         changeMode();
     }
 
+    @FXML
+    private void onClickedBranchLabel(){
+        changeModeTo("blueMode.css");
+    }
+
+    @FXML
+    private void onClickedLineLabel(){
+        changeModeTo("greenMode.css");
+    }
+
+    @FXML
+    private void onClickedCityLabel(){
+        changeModeTo("gentleOrangeMode.css");
+    }
+
     private void popUpWrongSelection(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
@@ -565,12 +580,18 @@ public class DashController {
         return res;
     }
 
-    private void changeMode(){
+    public void changeMode(){
+        if(darkModeCheckBox.isSelected()){
+            changeModeTo("darkMode.css");
+        }
+        else {
+            changeModeTo("orangeMode.css");
+        }
+    }
+    public void changeModeTo(String fileName){
         Scene scene=darkModeCheckBox.getScene();
         scene.getStylesheets().clear();
-        if(darkModeCheckBox.isSelected()){
-            scene.getStylesheets().add(getClass().getResource("darkMode.css").toExternalForm());
-        }
+        scene.getStylesheets().add(getClass().getResource(fileName).toExternalForm());
     }
 
     private boolean checkIfStartAndEndTimeValid(LocalDate startSelectedDate, LocalDate endSelectedDate){

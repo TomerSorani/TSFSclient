@@ -60,12 +60,12 @@ public class LoginController {
                 primaryStage.setTitle(primaryStage.getTitle() + " :   "+userName);
                 sController.SetUserName(userName);
                 primaryStage.setScene(sControllerScene);
+                sController.ChangeColor();
                 primaryStage.show();
             }
             else {
                 errorMessageProperty.set("Wrong User name or password");
             }
-
         }
     }
 

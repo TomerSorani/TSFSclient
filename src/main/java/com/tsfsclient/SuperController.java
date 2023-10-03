@@ -62,6 +62,10 @@ public class SuperController {
         dashTabContentController.refreshButtonClicked();
     }
 
+    public void ChangeColor(){
+        dashTabContentController.changeMode();
+    }
+
     private void configPermissionsAccordingToUser(){
         if(userName.equalsIgnoreCase("tomer") ||
                 userName.equalsIgnoreCase("one piece")){

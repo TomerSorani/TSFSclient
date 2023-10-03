@@ -1,0 +1,55 @@
+/*
+ * This is an adjustment of the original modena.css for a consistent dark theme.
+ * Original modena.css here: https://gist.github.com/maxd/63691840fc372f22f470.
+ */
+
+/* Redefine base colors */
+.root {
+    -fx-base: rgb(255, 153, 51); /* Soft Orange */
+    -fx-background: rgb(240, 240, 240); /* Light Gray background */
+
+    /* Make controls (buttons, thumb, etc.) slightly lighter */
+    -fx-color: derive(-fx-base, 20%);
+
+    /* Text fields and table rows background */
+    -fx-control-inner-background: rgb(255, 255, 255); /* White background */
+    /* Version of -fx-control-inner-background for alternative rows */
+    -fx-control-inner-background-alt: rgb(250, 250, 250); /* Lighter white */
+
+    /* Text colors depending on background's brightness */
+    -fx-light-text-color: rgb(50, 50, 50); /* Dark Gray text */
+    -fx-mid-text-color: rgb(100, 100, 100); /* Medium Gray text */
+    -fx-dark-text-color: rgb(0, 0, 0); /* Black text */
+
+    /* A soft orange for highlighting/accenting objects */
+    -fx-accent: rgb(255, 153, 51); /* Soft Orange */
+
+    /* Color of non-focused yet selected elements */
+    -fx-selection-bar-non-focused: rgb(255, 153, 51); /* Soft Orange */
+}
+
+/* Fix derived prompt color for text fields */
+.text-input {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, +30%);
+}
+
+/* Keep prompt invisible when focused (above color fix overrides it) */
+.text-input:focused {
+    -fx-prompt-text-fill: transparent;
+}
+
+/* Fix scroll bar buttons arrows colors */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, rgb(255, 153, 51); /* Soft Orange */
+}
+
+.scroll-bar > .increment-button:hover > .increment-arrow,
+.scroll-bar > .decrement-button:hover > .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, rgb(255, 133, 31); /* Slightly darker orange on hover */
+}
+
+.scroll-bar > .increment-button:pressed > .increment-arrow,
+.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, rgb(255, 113, 11); /* Darker orange on press */
+}
