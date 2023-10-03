@@ -50,13 +50,13 @@
                      <children>
                         <VBox alignment="CENTER">
                            <children>
-                              <Label minWidth="-Infinity" text="start time" />
+                              <Label minWidth="-Infinity" onMouseClicked="#onClickedStartTimeLabel" text="start time" />
                               <DatePicker fx:id="startDatePicker" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <Label minWidth="-Infinity" text="end time" />
+                              <Label minWidth="-Infinity" onMouseClicked="#onClickedEndLabel" text="end time" />
                               <DatePicker fx:id="endDatePicker" />
                            </children>
                            <opaqueInsets>

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MainApplication extends Application {
+    private final String version = "V: 0.1  ";
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -20,7 +21,7 @@ public class MainApplication extends Application {
 
         LoginController loginController = fxmlLoader.getController();
         loginController.setPrimaryStage(primaryStage);
-        primaryStage.setTitle("T.S.F.S");
+        primaryStage.setTitle(version + "  T.S.F.S ");
         Scene scene = new Scene(root);
         primaryStage.setMinHeight(300f);
         primaryStage.setMinWidth(400f);

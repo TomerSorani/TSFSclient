@@ -35,6 +35,8 @@ public class DashController {
     private SimpleBooleanProperty managerProperty;
     private SimpleBooleanProperty addDeleteFileAllowProperty;
 
+    private boolean changeColors = false;
+
     @FXML private TableView<FileTableViewRow> FileTableView;
     @FXML private TableColumn<FileTableViewRow, String> fileNameCol;
     @FXML private TableColumn<FileTableViewRow, String> linesCol;
@@ -218,18 +220,37 @@ public class DashController {
     }
 
     @FXML
+    private void onClickedStartTimeLabel(){
+        changeColors = !changeColors;
+    }
+
+    @FXML
+    private void onClickedEndLabel(){
+        if(changeColors) {
+            Scene scene = darkModeCheckBox.getScene();
+            scene.getStylesheets().clear();
+        }
+    }
+
+    @FXML
     private void onClickedBranchLabel(){
-        changeModeTo("blueMode.css");
+        if(changeColors) {
+            changeModeTo("blueMode.css");
+        }
     }
 
     @FXML
     private void onClickedLineLabel(){
-        changeModeTo("greenMode.css");
+        if(changeColors) {
+            changeModeTo("greenMode.css");
+        }
     }
 
     @FXML
     private void onClickedCityLabel(){
-        changeModeTo("gentleOrangeMode.css");
+        if(changeColors) {
+            changeModeTo("gentleOrangeMode.css");
+        }
     }
 
     private void popUpWrongSelection(){
