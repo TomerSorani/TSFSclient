@@ -19,6 +19,8 @@ public enum City {
 
     BEER_SHEVA("באר-שבע"),
 
+    BEIT_DAGAN("בית-דגן"),
+
     BEIT_SHEMESH("בית-שמש"),
 
     BNEY_BRAK("בני-ברק"),
@@ -32,6 +34,8 @@ public enum City {
     GIVAT_SHMUEL("גבעת שמואל"),
 
     GIVATIM("גבעתיים"),
+
+    HEMED("חמד"),
 
     HERTZELIA("הרצליה"),
 
@@ -52,6 +56,8 @@ public enum City {
     KIRTAT_MALAHI("קריית מלאכי"),
 
     LOD("לוד"),
+
+    MAGSHIMIM("מגשימים"),
 
     MITZPE_RAMON("מצפה רמון"),
 
@@ -81,6 +87,8 @@ public enum City {
 
     ROSH_HAAYIN("ראש-העין"),
 
+    SAVION("סביון"),
+
     SDEROT("שדרות"),
 
     SHOAM("שוהם"),
@@ -92,6 +100,8 @@ public enum City {
     TIRA("טירה"),
 
     TZFAT("צפת"),
+
+    TZIFRIYA("צפריה"),
 
     YAHOD("יהוד"),
 
