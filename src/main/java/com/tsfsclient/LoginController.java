@@ -106,7 +106,7 @@ public class LoginController {
                 validLogin = true;
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in checkIfValidUser: " + e.getMessage());
             throw new RuntimeException("Error sending login request", e);
         }
         return validLogin;

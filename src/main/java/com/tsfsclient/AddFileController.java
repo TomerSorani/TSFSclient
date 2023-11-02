@@ -136,11 +136,11 @@ public class AddFileController {
         try {
             sendRequestToAddFile(fileContainer);
             alert.setContentText("file added");
-            System.out.println("file added");
+            System.out.println("file added: " + fileContainer.getFileName());
             clearTab();
         }catch (IOException exception){
             alert.setContentText("Error - file not added. " + exception.getMessage());
-            System.out.println("Error - file not added" + exception.getMessage());
+            //System.out.println("Error - file " + fileContainer.getFileName() + "not added" + exception.getMessage());
         }
         finally {
             alert.showAndWait();
@@ -218,7 +218,7 @@ public class AddFileController {
             }.getType());
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestForLinesInCity: " + e.getMessage());
             throw new RuntimeException(e);
         }
 

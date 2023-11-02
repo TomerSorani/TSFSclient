@@ -102,7 +102,7 @@ public class DashController {
         if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
             FileTableViewRow fileTableViewRow = FileTableView.getSelectionModel().getSelectedItem();
             if (fileTableViewRow != null) {
-                System.out.println("Selected file: " + fileTableViewRow.getFileName());
+                //System.out.println("Selected file: " + fileTableViewRow.getFileName());
                 tryOpenMessagesDirectoryAndDeleteContent();
                 String fileName = fileTableViewRow.getFileName();
                 String fileLocation = sendRequestToGetFileLocation(fileName);
@@ -352,7 +352,7 @@ public class DashController {
 
             updateTableView(fileList);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRefreshRequest: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -478,7 +478,7 @@ public class DashController {
             fileLocation = fileLocation.replaceAll("\"", ""); // remove the quotation marks
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestToGetFileLocation: " + e.getMessage());
             throw new RuntimeException(e);
         }
         return fileLocation;
@@ -524,7 +524,7 @@ public class DashController {
             }.getType());
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestForLinesInCity: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -543,7 +543,7 @@ public class DashController {
                 throw new IOException("Unexpected response code: " + response.code());
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestToDeleteAllFilesFromDB: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -584,7 +584,7 @@ public class DashController {
                 throw new IOException("Unexpected response code: " + response.code());
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestToDeleteFile: " + e.getMessage());
             throw new RuntimeException("Error sending DELETE request", e);
         }
     }

@@ -63,7 +63,7 @@ public class ManagerController {
                 throw new IOException("Unexpected response code: " + response.code());
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestToUpdateFiles: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -100,7 +100,7 @@ public class ManagerController {
             }
             alert.showAndWait();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("error in sendRequestToChangeAvailabilityMode: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
