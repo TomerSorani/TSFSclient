@@ -74,6 +74,7 @@ public class SuperController {
                 userName.equalsIgnoreCase("one piece")){
             managerProperty.setValue(false);
             dashTabContentController.ChangeManagerProperties(true);
+            ManagerTabContentController.onActionScanAndUpdateButton();
         }
         if(userName.equalsIgnoreCase("tomer") ||
                 userName.equalsIgnoreCase("control room")||
@@ -81,6 +82,7 @@ public class SuperController {
                 userName.equalsIgnoreCase("tihnun")){
             addDeleteFileAllowProperty.setValue(false);
             dashTabContentController.ChangeAddAndDeleteFileAllowProperties(true);
+            ManagerTabContentController.onActionScanAndUpdateButton();
         }
     }
 

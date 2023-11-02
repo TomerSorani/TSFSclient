@@ -45,9 +45,8 @@ public enum Branch {
     ELAD("אלעד", new Line[]{Line.L_004_ELAD,Line.L_005_ELAD,Line.L_006_ELAD,Line.L_173_ELAD,Line.L_174_ELAD,Line.L_176_ELAD,Line.L_179_ELAD,Line.L_180_ELAD,Line.L_251_ELAD,Line.L_270_ELAD,Line.L_276_ELAD,Line.L_277_ELAD,Line.L_278_ELAD,Line.L_279_ELAD,
             Line.L_280_ELAD,Line.L_281_ELAD,Line.L_282_ELAD,Line.L_283_ELAD,Line.L_377_ELAD,Line.L_379_ELAD,Line.L_380_ELAD,Line.L_444_ELAD,Line.L_445_ELAD,Line.L_446_ELAD,Line.L_453_ELAD,Line.L_477_ELAD,Line.L_577_ELAD,Line.L_590_ELAD, Line.L_595_ELAD,Line.L_596_ELAD, Line.L_597_ELAD, Line.ELSE}),
 
-    ONO("אונו", new Line[]{Line.L_007_YAHOD, Line.L_008_ONO, Line.L_015_ONO, Line.L_055_ONO, Line.L_068_ONO,Line.L_115_ONO, Line.L_168_ONO, Line.ELSE});
-    //ONO("אונו", new Line[]{Line.L_001_OR_YAHODA,Line.L_002_ONO,Line.L_007_YAHOD,Line.L_007_BNEI_BRAK, Line.L_008_ONO,Line.L_010_ONO_ADD,Line.L_011_OR_YAHODA,Line.L_015_ONO,Line.L_018_ONO,Line.L_028_ONO,Line.L_036_ONO,Line.L_037_ONO,Line.L_055_ONO,Line.L_056_ONO,Line.L_058_ONO,Line.L_059_ONO,Line.L_068_ONO,Line.L_069_ONO,Line.L_076_ONO,
-    //        Line.L_077_ONO,Line.L_078_ONO,Line.L_079_ONO,Line.L_085_ONO,Line.L_115_ONO,Line.L_137_ONO,Line.L_138_ONO,Line.L_139_ONO,Line.L_168_ONO,Line.L_205_ONO,Line.L_236_ONO,Line.L_256_ONO,Line.L_385_ONO,Line.L_398_ONO,Line.L_436_ONO, Line.ELSE});
+    ONO("אונו", new Line[]{Line.L_001_OR_YAHODA,Line.L_002_ONO,Line.L_007_YAHOD,Line.L_007_BNEI_BRAK, Line.L_008_ONO,Line.L_010_ONO_ADD,Line.L_011_OR_YAHODA,Line.L_015_ONO,Line.L_018_ONO,Line.L_028_ONO,Line.L_036_ONO,Line.L_037_ONO,Line.L_055_ONO,Line.L_056_ONO,Line.L_058_ONO,Line.L_059_ONO,Line.L_068_ONO,Line.L_069_ONO,Line.L_076_ONO,
+            Line.L_077_ONO,Line.L_078_ONO,Line.L_079_ONO,Line.L_085_ONO,Line.L_115_ONO,Line.L_137_ONO,Line.L_138_ONO,Line.L_139_ONO,Line.L_168_ONO,Line.L_205_ONO,Line.L_236_ONO,Line.L_256_ONO,Line.L_385_ONO,Line.L_398_ONO,Line.L_436_ONO, Line.ELSE});
 
 
 

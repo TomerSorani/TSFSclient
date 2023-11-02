@@ -35,7 +35,7 @@ public class ManagerController {
         this.primaryStage = primaryStage;
     }
 
-    @FXML private void onActionScanAndUpdateButton(){
+    @FXML public void onActionScanAndUpdateButton(){
         sendRequestToUpdateFiles();
     }
 
