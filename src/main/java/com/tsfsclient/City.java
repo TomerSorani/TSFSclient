@@ -17,13 +17,19 @@ public enum City {
 
     BAT_YAM("בת-ים"),
 
+    BATZRA("בצרה"),
+
     BEER_SHEVA("באר-שבע"),
+
+    BEIT_BELEL("בית-ברל"),
 
     BEIT_DAGAN("בית-דגן"),
 
     BEIT_SHEMESH("בית-שמש"),
 
     BNEY_BRAK("בני-ברק"),
+
+    BNEY_TZION("בני-ציון"),
 
     DIMONA("דימונה"),
 
@@ -35,6 +41,8 @@ public enum City {
 
     GIVATIM("גבעתיים"),
 
+    HARUTZIM("חרוצים"),
+
     HEMED("חמד"),
 
     HERTZELIA("הרצליה"),
@@ -43,9 +51,15 @@ public enum City {
 
     HOLON("חולון"),
 
+    JALGULYA("ג'לג'וליה"),
+
     JERUSALEM("ירושלים"),
 
     KALANSUA("קלנסואה"),
+
+    KFAR_BARA("כפר-ברא"),
+
+    KFAR_KASEM("כפר-קאסם"),
 
     KFAR_SABA("כפר-סבא"),
 
@@ -59,6 +73,8 @@ public enum City {
 
     MAGSHIMIM("מגשימים"),
 
+    MATAN("מתן"),
+
     MITZPE_RAMON("מצפה רמון"),
 
     MODIIN("מודיעין"),
@@ -68,6 +84,8 @@ public enum City {
     NETIVOT("נתיבות"),
 
     NETANYA("נתניה"),
+
+    NIRIT("נירית"),
 
     OFAKIM("אופקים"),
 
@@ -89,6 +107,8 @@ public enum City {
 
     SAVION("סביון"),
 
+    SDEI_HEMED("שדי חמד"),
+
     SDEROT("שדרות"),
 
     SHOAM("שוהם"),
@@ -104,6 +124,8 @@ public enum City {
     TZIFRIYA("צפריה"),
 
     YAHOD("יהוד"),
+
+    YARHIV("ירחיב"),
 
     YAVNE("יבנה"),
 
