@@ -42,7 +42,19 @@
                <children>
                   <VBox alignment="CENTER" spacing="50.0">
                      <children>
-                        <CheckBox fx:id="darkModeCheckBox" mnemonicParsing="false" onAction="#onActionDarkMode" text="dark" />
+                        <VBox>
+                           <children>
+                              <Label onMouseClicked="#onClickedModeLabel" text="Mode:">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="15.0" />
+                                 </padding>
+                              </Label>
+                              <CheckBox fx:id="darkModeCheckBox" mnemonicParsing="false" onAction="#onActionDarkMode" text="dark" />
+                           </children>
+                        </VBox>
                         <Button fx:id="refreshButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="46.0" prefWidth="74.0" text="refresh" />
                      </children>
                   </VBox>

@@ -253,6 +253,13 @@ public class DashController {
         }
     }
 
+    @FXML
+    private void onClickedModeLabel(){
+        if(changeColors) {
+            changeModeTo("pinkMode.css");
+        }
+    }
+
     private void popUpWrongSelection(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
